@@ -57,12 +57,13 @@ const voteComment = (data) => {
 
     const requestOptions = { method: "POST", body: formData };
 
-    try {  
-        var promise = fetch("/api/comment/vote", requestOptions) 
-        return promise
-    } 
-    catch(err) { throw err; }
-}
+    try {
+        var promise = fetch("/api/comment/vote", requestOptions);
+        return promise;
+    } catch (err) {
+        throw err;
+    }
+};
 
 const createComment = (data) => {
     const formData = new FormData();
@@ -75,9 +76,11 @@ const createComment = (data) => {
     };
 
     try {
-        var promise = fetch("/api/comment/create", requestOptions)            
-            .then((response) => response.json());
-        return promise
+        var promise = fetch(
+            "/api/comment/create",
+            requestOptions
+        ).then((response) => response.json());
+        return promise;
     } catch (err) {
         throw err;
     }
