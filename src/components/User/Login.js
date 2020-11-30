@@ -18,6 +18,8 @@ class Login extends Component {
 
         this.state = {
             show: false,
+            name: "",
+            password: "",
         };
     }
 
@@ -74,7 +76,7 @@ class Login extends Component {
                 <Modal show={show} onHide={this.handleToggleModal}>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalHeader closeButton>
-                            <ModalTitle>Upload</ModalTitle>
+                            <ModalTitle>Sign In</ModalTitle>
                         </ModalHeader>
 
                         <ModalBody>
@@ -91,7 +93,7 @@ class Login extends Component {
                             <FormGroup controlId="formPassword">
                                 <FormLabel>Password</FormLabel>
                                 <FormControl
-                                    type="text"
+                                    type="password"
                                     name="password"
                                     placeholer="Password..."
                                     value={password}

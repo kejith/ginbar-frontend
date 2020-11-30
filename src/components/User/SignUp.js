@@ -18,6 +18,9 @@ export class SignUp extends Component {
 
         this.state = {
             show: false,
+            name: "",
+            email: "",
+            password: "",
         };
     }
 
@@ -47,8 +50,6 @@ export class SignUp extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        // let values = { url: this.state.url };
-
         const data = new FormData();
         data.append("name", this.state.name);
         data.append("email", this.state.email);
@@ -61,10 +62,8 @@ export class SignUp extends Component {
 
         try {
             const response = await fetch("/api/user/create", requestOptions);
-            //const data = await response.json();
             if (response.status === 200) {
-
-                //this.props.onLogin(data);
+                this.setState({ show: false });
             }
         } catch (err) {}
     };
@@ -80,7 +79,7 @@ export class SignUp extends Component {
                 <Modal show={show} onHide={this.handleToggleModal}>
                     <Form onSubmit={this.handleSubmit}>
                         <ModalHeader closeButton>
-                            <ModalTitle>Upload</ModalTitle>
+                            <ModalTitle>Sign Up</ModalTitle>
                         </ModalHeader>
 
                         <ModalBody>
@@ -107,7 +106,7 @@ export class SignUp extends Component {
                             <FormGroup controlId="formPassword">
                                 <FormLabel>Password</FormLabel>
                                 <FormControl
-                                    type="text"
+                                    type="password"
                                     name="password"
                                     placeholer="Password..."
                                     value={password}
