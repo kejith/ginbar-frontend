@@ -1,0 +1,12 @@
+.comment-section {
+    color: #fff;
+    text-align: left;
+  }
+  
+    .comment-section .comment-container {
+      position: relative;
+    }
+
+.comment-container {
+  background-color: #fff;
+}    
