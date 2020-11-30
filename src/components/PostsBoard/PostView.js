@@ -74,7 +74,7 @@ class PostView extends Component {
         var commentsLoaded =
             fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
-            new Date(post.CreatedAt)
+            new Date(post.created_at)
         );
 
         return (

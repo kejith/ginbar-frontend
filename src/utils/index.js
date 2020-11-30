@@ -38,6 +38,7 @@ const WEEK = DAY * 7;
 export function howLongAgoHumanReadable(earlierDate) {
     var nowDate = new Date();
     var now = nowDate.getTime();
+
     var earlier = earlierDate.getTime();
 
     // we will use the bitwise or "|" operator to floor numbers
