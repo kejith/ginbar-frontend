@@ -26,7 +26,7 @@ class App extends React.Component {
     };
 
     handleLogout = async (data) => {
-        await fetch("/api/user/logout", { method: "GET" }).then((data) => {
+        await fetch("/api/user/logout", { method: "POST" }).then((data) => {
             if (!isAuthenticated()) {
                 localStorage.removeItem("user");
                 this.setState({ user: "" });
