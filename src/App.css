@@ -169,7 +169,7 @@ span.btn-icon-text {
   .comment-section textarea:focus, .comment-section textarea.has-text {  box-shadow: 0 0 0 0; height: 120px; }
 
 
-  .comment-container { }
+
   .comment-container.active {
     transition: all 0.5s ease;
     background-color: #2f7ed42b; padding-top: 8px; padding-bottom: 8px;
