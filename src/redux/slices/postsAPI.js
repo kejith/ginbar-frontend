@@ -65,6 +65,21 @@ const voteComment = (data) => {
     }
 };
 
+const votePost = (data) => {
+    let formData = new FormData();
+    formData.append("post_id", data.postID);
+    formData.append("vote_state", data.voteState);
+
+    const requestOptions = { method: "POST", body: formData };
+
+    try {
+        var promise = fetch("/api/post/vote", requestOptions);
+        return promise;
+    } catch (err) {
+        throw err;
+    }
+};
+
 const createComment = (data) => {
     const formData = new FormData();
     formData.append("content", data.content);
@@ -89,6 +104,7 @@ const createComment = (data) => {
 const postAPI = {
     fetchAll,
     fetchById,
+    votePost,
 };
 
 export const voteAPI = {

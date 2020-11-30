@@ -6,7 +6,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 const commentEntity = new schema.Entity("comments");
 
 const postEntity = new schema.Entity("posts", {
-    comments: [commentEntity]
+    comments: [commentEntity],
 });
 
 export const fetchAll = createAsyncThunk(
@@ -16,9 +16,7 @@ export const fetchAll = createAsyncThunk(
             const promise = postAPI.fetchAll();
 
             const data = await promise;
-            const normalized = normalize(data, {posts: [postEntity]});
-            
-            
+            const normalized = normalize(data, { posts: [postEntity] });
 
             return normalized.entities;
         } catch (err) {
@@ -42,6 +40,24 @@ export const fetchById = createAsyncThunk(
 
             return normalized;
         } catch (err) {
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
+export const postVoted = createAsyncThunk(
+    "posts/upsertVote",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = postAPI.votePost(payload);
+            await promise;
+            return payload;
+        } catch (err) {
+            console.log(err);
             if (!err.response) {
                 throw err;
             }
@@ -89,8 +105,6 @@ export const commentCreated = createAsyncThunk(
         }
     }
 );
-
-
 
 /*
 export const upsertVoteThunk = createAsyncThunk(

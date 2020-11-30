@@ -6,7 +6,8 @@ import CommentSection from "../Comment";
 import { howLongAgoHumanReadable } from "../../utils";
 import { connect } from "react-redux";
 import {
-    fetchById as fetchPostById
+    fetchById as fetchPostById,
+    postVoted,
 } from "../../redux/actions/actions";
 import { selectors as postSelectors } from "../../redux/slices/postSlice";
 
@@ -43,48 +44,38 @@ class PostView extends Component {
         this.setState({ comments: newComments });
     };
 
-    handleVote = async (
-        contentID,
-        voteID,
-        isPostNotComment,
-        isUpvoted,
-        isUpdate = false
-    ) => {
-        // TODO replace each ID with content_id to uniform
-        // fetch
-        let data = new FormData();
-        switch (isPostNotComment) {
-            case IS_POST:
-                data.append("post_id", contentID);
-                data.append("is_post_not_comment", IS_POST);
-                break;
-            case IS_COMMENT:
-                data.append("comment_id", contentID);
-                data.append("is_post_not_comment", IS_COMMENT);
-                break;
-            default:
-                return; // unexpected behavior => abort
-        }
+    handleVote = async (postID, voteState) => {
+        // when we hit the same vote button as the current state we want to
+        // delete this vote
+        if (this.props.post.upvoted === voteState) voteState = 0;
 
-        data.append("upvoted", isUpvoted);
-
-        if (isUpdate) {
-            data.append("vote_id", voteID);
-        }
-
-        this.props.upsertVote({
-            formData: data,
-            isUpdate: isUpdate,
+        this.props.votePost({
+            postID: postID,
+            voteState: voteState,
         });
     };
 
+    addVotedClass(isUpvoted) {
+        var { post } = this.props;
+        if (post.upvoted === 0) return;
+
+        if (
+            (isUpvoted && post.upvoted === 1) ||
+            (!isUpvoted && post.upvoted === -1)
+        ) {
+            return "voted";
+        }
+
+        return "";
+    }
+
     render() {
         var { nextPostID, previousPostID, post, fetchState } = this.props;
-        var commentsLoaded = fetchState === "fulfilled" && post.comments !== null;
+        var commentsLoaded =
+            fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
             new Date(post.CreatedAt)
         );
-
 
         return (
             <div
@@ -100,7 +91,9 @@ class PostView extends Component {
                             className="post-thumbnail "
                             onClick={() => this.props.onShowNextPost()}
                         >
-                            <div className="post-next"><i className="fa fa-chevron-right"></i></div>
+                            <div className="post-next">
+                                <i className="fa fa-chevron-right"></i>
+                            </div>
                         </Link>
                     ) : (
                         ""
@@ -111,7 +104,9 @@ class PostView extends Component {
                             className="post-thumbnail "
                             onClick={() => this.props.onShowPreviousPost()}
                         >
-                            <div className="post-prev"><i className="fa fa-chevron-left"></i></div>
+                            <div className="post-prev">
+                                <i className="fa fa-chevron-left"></i>
+                            </div>
                         </Link>
                     ) : (
                         ""
@@ -127,31 +122,27 @@ class PostView extends Component {
                         <div className="vote-parent d-inline-block">
                             <div className="post-vote vote-container">
                                 <div
-                                    onClick={() =>
-                                        this.handleVote(
-                                            post.id,
-                                            IS_POST,
-                                            UPVOTED
-                                        )
+                                    onClick={() => this.handleVote(post.id, 1)}
+                                    className={
+                                        "post-vote-up vote vote-up " +
+                                        this.addVotedClass(true)
                                     }
-                                    className="post-vote-up vote vote-up"
                                 >
                                     <i className="fa fa-plus"></i>
                                 </div>
                                 <div
-                                    onClick={() =>
-                                        this.handleVote(
-                                            post.id,
-                                            IS_COMMENT,
-                                            DOWNVOTED
-                                        )
+                                    onClick={() => this.handleVote(post.id, -1)}
+                                    className={
+                                        "post-vote-down vote vote-down " +
+                                        this.addVotedClass(false)
                                     }
-                                    className="post-vote-down vote vote-down"
                                 >
                                     <i className="fa fa-minus"></i>
                                 </div>
                             </div>
-                            <span className="score vote-score">239</span>
+                            <span className="score vote-score">
+                                {post.score}
+                            </span>
                         </div>
                         <div className="post-details d-inline-block">
                             <a className="time" href="">
@@ -202,6 +193,7 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 const mapDispatchToProps = {
-    fetchPostById: fetchPostById
+    fetchPostById: fetchPostById,
+    votePost: postVoted,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);

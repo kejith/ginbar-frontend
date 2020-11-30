@@ -4,7 +4,12 @@ import {
     createSlice,
 } from "@reduxjs/toolkit";
 
-import { fetchAll, fetchById, commentCreated } from "../actions/actions";
+import {
+    fetchAll,
+    fetchById,
+    commentCreated,
+    postVoted,
+} from "../actions/actions";
 
 export function objectFlip(obj) {
     return Object.keys(obj).reduce((ret, key) => {
@@ -44,10 +49,7 @@ export const postSlice = createSlice({
             // no posts found
             if (action.payload.posts === undefined) return;
 
-            postsAdapter.upsertMany(
-                state,
-                action.payload.posts
-            );
+            postsAdapter.upsertMany(state, action.payload.posts);
         },
 
         [fetchById.fulfilled]: (state, action) => {
@@ -59,17 +61,28 @@ export const postSlice = createSlice({
             var posts = Object.values(action.payload.entities.posts);
             postsAdapter.upsertMany(state, posts);
         },
-        [fetchById.rejected]: (state, action) => {},
+        [postVoted.fulfilled]: (state, action) => {
+            const { postID, voteState } = action.payload;
+
+            if (
+                state.entities.length === 0 ||
+                state.entities[postID] === undefined
+            )
+                return;
+
+            var scoreDiff = voteState - state.entities[postID].upvoted;
+            state.entities[postID].upvoted = voteState;
+            state.entities[postID].score += scoreDiff;
+        },
         [commentCreated.fulfilled]: (state, action) => {
             const { result, entities } = action.payload;
             const comments = entities.comments;
 
-            if(result !== 0 && comments[result] !== undefined){
+            if (result !== 0 && comments[result] !== undefined) {
                 const postID = comments[result].post_id;
 
-                if(state.entities[postID].comments !== null){
-                    state.entities[postID].comments.push(result)
-                    
+                if (state.entities[postID].comments !== null) {
+                    state.entities[postID].comments.push(result);
                 } else {
                     state.entities[postID].comments = [result];
                 }
