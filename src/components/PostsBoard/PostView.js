@@ -70,7 +70,7 @@ class PostView extends Component {
     }
 
     render() {
-        var { nextPostID, previousPostID, post, fetchState } = this.props;
+        var { nextPostID, previousPostID, post, fetchState, tags } = this.props;
         var commentsLoaded =
             fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
@@ -159,6 +159,23 @@ class PostView extends Component {
                                     {new URL(post.url).hostname}
                                 </a>
                             </span>
+                            <div className="post-tags tags">
+                                {tags.map((tag) => (
+                                    <div
+                                        key={tag.id}
+                                        className="tag d-inline-block"
+                                    >
+                                        {tag.name}
+                                        <div className="tag-vote-up vote vote-up d-inline-block">
+                                            <i className="fa fa-plus"></i>
+                                        </div>
+
+                                        <div className="tag-vote-down vote vote-down d-inline-block">
+                                            <i className="fa fa-minus"></i>
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
                         </div>
                     </div>
                 </div>

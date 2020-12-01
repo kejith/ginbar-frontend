@@ -116,6 +116,10 @@ span.btn-icon-text {
   width: 100%;
 }
 
+.tags { margin-top: 0.5em;}
+.tags .tag { background-color: #474747; padding: 2px 8px; border-radius: 10px;
+  font-size: 14px; }
+  .tags .tag .vote { font-size: 12px; margin-left: 4px; margin-right: 4px; }
 
 .post-media { position: relative; }
 .post-footer { 
