@@ -37,11 +37,7 @@ export const fetchById = createAsyncThunk(
         try {
             const promise = postAPI.fetchById(payload);
             const data = await promise;
-
             const normalized = normalize(data, postEntity);
-
-            console.log(normalized);
-
             return normalized;
         } catch (err) {
             if (!err.response) {

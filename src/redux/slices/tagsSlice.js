@@ -23,14 +23,13 @@ export const tagsSlice = createSlice({
 });
 
 export const tagsReducer = tagsSlice.reducer;
-export const selectors = tagsAdapter.getSelectors((state) => state.votes);
+export const selectors = tagsAdapter.getSelectors((state) => state.tags);
 
 const selectPropsPostId = (state, postId) => postId;
 export const selectTagsByPostId = createSelector(
     [selectors.selectEntities, selectPropsPostId],
     (tagsEntities, postId) => {
         const tagsArray = Object.values(tagsEntities);
-
         return tagsArray.filter((tag) => tag.post_id === postId);
     }
 );

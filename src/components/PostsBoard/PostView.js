@@ -5,13 +5,13 @@ import { Link } from "react-router-dom";
 import CommentSection from "../Comment";
 import { howLongAgoHumanReadable } from "../../utils";
 import { connect } from "react-redux";
+import { selectors as postSelectors } from "../../redux/slices/postSlice";
+import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
+import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
 import {
     fetchById as fetchPostById,
     postVoted,
 } from "../../redux/actions/actions";
-import { selectors as postSelectors } from "../../redux/slices/postSlice";
-
-import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 
 export const UPVOTED = 1;
 export const DOWNVOTED = -1;
@@ -77,6 +77,7 @@ class PostView extends Component {
             new Date(post.created_at)
         );
 
+        console.log(this.props.tags);
         return (
             <div
                 ref={this.ref}
@@ -190,6 +191,7 @@ const mapStateToProps = (state, ownProps) => {
         fetchState: state.posts.fetchState,
         post: postSelectors.selectById(state, ownProps.postID),
         comments: selectCommentsByPostId(state, ownProps),
+        tags: selectTagsByPostId(state, ownProps.postID),
     };
 };
 const mapDispatchToProps = {
