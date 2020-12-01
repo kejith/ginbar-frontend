@@ -4,9 +4,11 @@ import postAPI, { commentAPI } from "../slices/postsAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const commentEntity = new schema.Entity("comments");
+const tagEntity = new schema.Entity("tags");
 
 const postEntity = new schema.Entity("posts", {
     comments: [commentEntity],
+    tags: [tagEntity],
 });
 
 export const fetchAll = createAsyncThunk(
@@ -37,6 +39,8 @@ export const fetchById = createAsyncThunk(
             const data = await promise;
 
             const normalized = normalize(data, postEntity);
+
+            console.log(normalized);
 
             return normalized;
         } catch (err) {
