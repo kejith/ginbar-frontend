@@ -1,9 +1,11 @@
-var postApi = "/api/post/";
-var voteApi = "/api/vote/";
+var urlPostApi = "/api/post/";
+var urlCommentApi = "/api/comment/";
+var urlVoteApi = "/api/vote/";
+var urlTagApi = "/api/tag/";
 
 const fetchAll = () => {
     try {
-        var promise = fetch(postApi)
+        var promise = fetch(urlPostApi)
             .then((response) => response.json())
             .then((data) => {
                 return data;
@@ -17,7 +19,7 @@ const fetchAll = () => {
 
 const fetchById = (postID) => {
     try {
-        var promise = fetch(postApi + postID)
+        var promise = fetch(urlPostApi + postID)
             .then((response) => response.json())
             .then((response) => {
                 return response.data;
@@ -36,7 +38,7 @@ const upsertVote = (vote) => {
 
     try {
         var promise = fetch(
-            voteApi + (vote.isUpdate ? "update" : "create"),
+            urlVoteApi + (vote.isUpdate ? "update" : "create"),
             requestOptions
         )
             .then((response) => response.json())
@@ -58,7 +60,7 @@ const voteComment = (data) => {
     const requestOptions = { method: "POST", body: formData };
 
     try {
-        var promise = fetch("/api/comment/vote", requestOptions);
+        var promise = fetch(urlCommentApi + "vote", requestOptions);
         return promise;
     } catch (err) {
         throw err;
@@ -73,7 +75,43 @@ const votePost = (data) => {
     const requestOptions = { method: "POST", body: formData };
 
     try {
-        var promise = fetch("/api/post/vote", requestOptions);
+        var promise = fetch(urlPostApi + "vote", requestOptions);
+        return promise;
+    } catch (err) {
+        throw err;
+    }
+};
+
+const votePostTag = (data) => {
+    let formData = new FormData();
+    formData.append("post_tag_id", data.postTagID);
+    formData.append("vote_state", data.voteState);
+
+    const requestOptions = { method: "POST", body: formData };
+
+    try {
+        var promise = fetch(urlTagApi + "vote", requestOptions);
+        return promise;
+    } catch (err) {
+        throw err;
+    }
+};
+
+const createTag = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.name);
+    formData.append("post_id", data.postID);
+
+    const requestOptions = {
+        method: "POST",
+        body: formData,
+    };
+
+    try {
+        var promise = fetch(
+            urlTagApi + "create",
+            requestOptions
+        ).then((response) => response.json());
         return promise;
     } catch (err) {
         throw err;
@@ -92,7 +130,7 @@ const createComment = (data) => {
 
     try {
         var promise = fetch(
-            "/api/comment/create",
+            urlCommentApi + "create",
             requestOptions
         ).then((response) => response.json());
         return promise;
@@ -114,6 +152,11 @@ export const voteAPI = {
 export const commentAPI = {
     voteComment,
     createComment,
+};
+
+export const tagAPI = {
+    votePostTag,
+    createTag,
 };
 
 export default postAPI;

@@ -14,7 +14,7 @@ import {
 import { fetchAll } from "../../redux/actions/actions";
 
 class PostsBoard extends Component {
-    postWidth = 200;
+    postWidth = 150;
 
     constructor(props) {
         super(props);

@@ -3,7 +3,7 @@ import {
     createSlice,
     createSelector,
 } from "@reduxjs/toolkit";
-import { fetchById } from "../actions/actions";
+import { fetchById, postTagVoted, postTagCreated } from "../actions/actions";
 
 const tagsAdapter = createEntityAdapter({ selectId: (tag) => tag.id });
 
@@ -18,6 +18,23 @@ export const tagsSlice = createSlice({
             if (tags === undefined) return;
 
             tagsAdapter.upsertMany(state, tags);
+        },
+        [postTagCreated.fulfilled]: (state, action) => {
+            if (action.payload.entities === undefined) return;
+
+            tagsAdapter.upsertMany(state, action.payload.entities.tags);
+        },
+        [postTagVoted.fulfilled]: (state, action) => {
+            const { postTagID, voteState } = action.payload;
+            if (
+                state.entities.length === 0 ||
+                state.entities[postTagID] === undefined
+            )
+                return;
+
+            var scoreDiff = voteState - state.entities[postTagID].upvoted;
+            state.entities[postTagID].upvoted = voteState;
+            state.entities[postTagID].score += scoreDiff;
         },
     },
 });

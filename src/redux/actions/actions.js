@@ -1,6 +1,6 @@
 import { schema } from "normalizr";
 import { normalize } from "normalizr";
-import postAPI, { commentAPI } from "../slices/postsAPI";
+import postAPI, { commentAPI, tagAPI } from "../slices/postsAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const commentEntity = new schema.Entity("comments");
@@ -85,6 +85,24 @@ export const commentVoted = createAsyncThunk(
     }
 );
 
+export const postTagVoted = createAsyncThunk(
+    "postTags/upsertVote",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = tagAPI.votePostTag(payload);
+            await promise;
+            return payload;
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
 export const commentCreated = createAsyncThunk(
     "comments/create",
     async (payload, { dispatch, rejectWithValue }) => {
@@ -93,6 +111,27 @@ export const commentCreated = createAsyncThunk(
             const data = await promise;
 
             const normalized = normalize(data, commentEntity);
+
+            return normalized;
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
+export const postTagCreated = createAsyncThunk(
+    "tags/create",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = tagAPI.createTag(payload);
+            const data = await promise;
+
+            const normalized = normalize(data, tagEntity);
 
             return normalized;
         } catch (err) {

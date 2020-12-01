@@ -3,6 +3,7 @@ body {
 }
 
 a { color: #75c0c7; }
+a:hover { text-decoration: none; }
 
 a:hover { color: #F5F7F6}
 
@@ -116,10 +117,23 @@ span.btn-icon-text {
   width: 100%;
 }
 
+.post-view textarea, .post-view input[type="text"] {
+  background-color: #1B1E1F !important; color: #bbb !important; 
+  border-radius: 0; border: 1px solid #333 !important; text-align: left; 
+  font-size: 13px; 
+}
+
+.post-view textarea:focus , .post-view input[type="text"]:focus {
+  box-shadow: 0 0 0 0;  
+}
+
 .tags { margin-top: 0.5em;}
 .tags .tag { background-color: #474747; padding: 2px 8px; border-radius: 10px;
-  font-size: 14px; }
-  .tags .tag .vote { font-size: 12px; margin-left: 4px; margin-right: 4px; }
+  font-size: 14px; margin: 0 6px 6px 0;}
+  .tags .tag .vote { font-size: 11px; margin-left: 4px; margin-right: 4px; }
+  .add-tag-container { vertical-align: middle; margin-top: 1em; min-width: 330px;  }
+  .tags .add-tag-container .add-tag-input { max-width: 200px; vertical-align: top; }
+  .tags .add-tag-container .btn { border-radius: 0; vertical-align: top; margin-right: 0.5em;}
 
 .post-media { position: relative; }
 .post-footer { 
