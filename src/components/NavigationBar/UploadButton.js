@@ -19,6 +19,8 @@ class UploadButton extends Component {
 
         this.state = {
             show: false,
+            url: "",
+            file: "",
         };
     }
 
@@ -30,6 +32,9 @@ class UploadButton extends Component {
         switch (e.target.name) {
             case "url":
                 this.setState({ url: e.target.value });
+                break;
+            case "file":
+                this.setState({ file: e.target.value });
                 break;
 
             default:
@@ -82,7 +87,7 @@ class UploadButton extends Component {
     };
 
     render() {
-        const { show, url } = this.state;
+        const { show, url, file } = this.state;
         return (
             <div className="d-inline-block">
                 <Button variant="primary" onClick={this.handleToggleModal}>
@@ -139,7 +144,7 @@ class UploadButton extends Component {
                                     name="file"
                                     id="file-upload-input"
                                     placeholer="Select a File..."
-                                    value={url}
+                                    value={file}
                                     onChange={this.handleChange}
                                 />
                                 <FormText>
