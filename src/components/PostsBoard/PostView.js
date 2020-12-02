@@ -110,7 +110,38 @@ class PostView extends Component {
             new Date(post.created_at)
         );
 
-        console.log(this.props.tags);
+        var contentType = post.content_type.split("/");
+        var media;
+        switch (contentType[0]) {
+            case "image":
+                media = (
+                    <img
+                        alt="fickdich"
+                        className="img-fluid"
+                        src={"http://kejith.de:8080/images/" + post.filename}
+                    />
+                );
+                break;
+            case "video":
+                media = (
+                    <video
+                        class="media-video"
+                        draggable="true"
+                        src={"http://kejith.de:8080/videos/" + post.filename}
+                        type="video/mp4"
+                        loop=""
+                        autoplay=""
+                        controls
+                        loop
+                        preload="auto"
+                    ></video>
+                );
+                break;
+
+            default:
+                break;
+        }
+
         return (
             <div
                 ref={this.ref}
@@ -145,13 +176,7 @@ class PostView extends Component {
                     ) : (
                         ""
                     )}
-                    <div className="text-center post-media">
-                        <img
-                            alt="fickdich"
-                            className="img-fluid"
-                            src={"http://kejith.de:8080/images/" + post.image}
-                        />
-                    </div>
+                    <div className="text-center post-media">{media}</div>
                     <div className="post-footer ">
                         <div className="vote-parent d-inline-block">
                             <div className="post-vote vote-container">
@@ -188,12 +213,16 @@ class PostView extends Component {
                             <a className="user" href="">
                                 {post.user}
                             </a>
-                            <span className="post-source">
-                                <i className="fa fa-link"></i>{" "}
-                                <a href={post.url}>
-                                    {new URL(post.url).hostname}
-                                </a>
-                            </span>
+                            {post.url !== "" ? (
+                                <span className="post-source">
+                                    <i className="fa fa-link"></i>{" "}
+                                    <a href={post.url}>
+                                        {new URL(post.url).hostname}
+                                    </a>
+                                </span>
+                            ) : (
+                                ""
+                            )}
                             <div className="post-tags tags">
                                 <div className="tags-list">
                                     {tags.map((tag) => (

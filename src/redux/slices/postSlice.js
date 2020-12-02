@@ -20,6 +20,7 @@ export function objectFlip(obj) {
 
 const postsAdapter = createEntityAdapter({
     selectId: (post) => post.id,
+    sortComparer: (a, b) => b.id - a.id,
 });
 
 export const postSlice = createSlice({

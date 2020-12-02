@@ -1,5 +1,6 @@
 body {
   background-color: #1e1e1e;
+  padding-left: 4px; padding-right: 4px;
 }
 
 a { color: #75c0c7; }
@@ -113,11 +114,20 @@ span.btn-icon-text {
 /* 
   POST VIEW 
 */
+.post-container { border: 2px solid #1e1e1e}
 .post-container .post-thumbnail {
   width: 100%;
 }
 
-.post-view textarea, .post-view input[type="text"] {
+.upload-form { margin-bottom: 2em; }
+.upload-group { margin-bottom: 1em; }
+
+video::-webkit-media-controls-panel {
+  display: flex !important;
+  opacity: 1 !important;
+}
+
+.modal-content input[type="text"], .modal-content input[type="file"], .modal-content input[type="password"], .post-view textarea, .post-view input[type="text"] {
   background-color: #1B1E1F !important; color: #bbb !important; 
   border-radius: 0; border: 1px solid #333 !important; text-align: left; 
   font-size: 13px; 
@@ -127,6 +137,10 @@ span.btn-icon-text {
   box-shadow: 0 0 0 0;  
 }
 
+.modal-content { background-color: #1e1e1e; color: #fff; }
+.modal-content .modal-header, .modal-content .modal-footer { border-color: #474747; background-color: #333;  }
+.modal-content .modal-header .close { color: #fff }
+
 .tags { margin-top: 0.5em;}
 .tags .tag { background-color: #474747; padding: 2px 8px; border-radius: 10px;
   font-size: 14px; margin: 0 6px 6px 0;}
@@ -135,7 +149,9 @@ span.btn-icon-text {
   .tags .add-tag-container .add-tag-input { max-width: 200px; vertical-align: top; }
   .tags .add-tag-container .btn { border-radius: 0; vertical-align: top; margin-right: 0.5em;}
 
-.post-media { position: relative; }
+.post-media { position: relative; border: 2px solid #1e1e1e;  border-left: 0; border-right: 0; text-align: center;}
+.post-media img, .post-media video { text-align: center; max-width: 100%}
+
 .post-footer { 
   color: #fff; padding: 16px 8px; text-align: left;  
 }

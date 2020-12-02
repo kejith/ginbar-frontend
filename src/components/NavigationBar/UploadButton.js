@@ -9,6 +9,7 @@ import {
     FormGroup,
     FormLabel,
     FormControl,
+    FormText,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
@@ -51,10 +52,30 @@ class UploadButton extends Component {
         };
 
         try {
-            await fetch(
-                "/api/post/create",
-                requestOptions
-            ).then((data) => console.log(data));
+            await fetch("/api/post/create", requestOptions).then((data) =>
+                console.log(data)
+            );
+        } catch (err) {
+            console.log(err);
+        }
+    };
+
+    handleUploadSubmit = async (e) => {
+        e.preventDefault();
+        const data = new FormData();
+        var fileData = document.querySelector('input[type="file"]').files[0];
+        data.append("file", fileData);
+
+        let requestOptions = {
+            cors: "no-cors",
+            method: "POST",
+            body: data,
+        };
+
+        try {
+            await fetch("/api/post/upload", requestOptions).then((data) =>
+                console.log(data)
+            );
         } catch (err) {
             console.log(err);
         }
@@ -69,31 +90,79 @@ class UploadButton extends Component {
                     <i className="fa fa-upload"></i>
                 </Button>
                 <Modal show={show} onHide={this.handleToggleModal}>
-                    <Form onSubmit={this.handleSubmit}>
-                        <ModalHeader closeButton>
-                            <ModalTitle>Upload</ModalTitle>
-                        </ModalHeader>
+                    <ModalHeader closeButton>
+                        <ModalTitle>Upload</ModalTitle>
+                    </ModalHeader>
 
-                        <ModalBody>
-                            <FormGroup controlId="formEmail">
+                    <ModalBody>
+                        <Form
+                            className="upload-form"
+                            onSubmit={this.handleSubmit}
+                        >
+                            <FormGroup
+                                className="upload-group"
+                                controlId="formURL"
+                            >
                                 <FormLabel>URL</FormLabel>
                                 <FormControl
                                     type="text"
                                     name="url"
-                                    placeholer="Enter Url"
+                                    placeholer="Enter URL..."
                                     value={url}
                                     onChange={this.handleChange}
                                 />
+                                <FormText>
+                                    Here you can create a new post by specifying
+                                    a URL.
+                                </FormText>
                             </FormGroup>
-                        </ModalBody>
-
-                        <ModalFooter>
-                            <Button variant="primary" type="submit">
+                            <Button
+                                className="btn-sm"
+                                variant="primary"
+                                type="submit"
+                            >
+                                <span className=" btn-icon-text">Upload</span>
+                                <i className="fa fa-upload"></i>
+                            </Button>
+                        </Form>
+                        <Form
+                            className="upload-form"
+                            onSubmit={this.handleUploadSubmit}
+                        >
+                            <FormGroup
+                                className="upload-group"
+                                controlId="formFile"
+                            >
+                                <FormLabel>Upload File</FormLabel>
+                                <FormControl
+                                    type="file"
+                                    name="file"
+                                    id="file-upload-input"
+                                    placeholer="Select a File..."
+                                    value={url}
+                                    onChange={this.handleChange}
+                                />
+                                <FormText>
+                                    Or upload a new file from the computer
+                                </FormText>
+                            </FormGroup>
+                            <Button
+                                className="btn-sm"
+                                variant="primary"
+                                type="submit"
+                            >
                                 <span className="btn-icon-text">Upload</span>
                                 <i className="fa fa-upload"></i>
                             </Button>
-                        </ModalFooter>
-                    </Form>
+                        </Form>
+                    </ModalBody>
+
+                    {/* <ModalFooter>
+                        <Button variant="primary" type="submit">
+                            <span className="btn-icon-text">Upload</span>
+                            <i className="fa fa-upload"></i>
+                        </Button>
+                    </ModalFooter> */}
                 </Modal>
             </div>
         );

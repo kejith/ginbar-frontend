@@ -13,17 +13,33 @@ class PostThumbnail extends Component {
         // with an empty .col element
         var element;
         if (post !== undefined) {
+            var image;
+            if (post.content_type !== "image") {
+                image = (
+                    <img
+                        alt="thumbnail"
+                        className="img-fluid w-100"
+                        src={
+                            thumbnailUrl + post.filename.split(".")[0] + ".png"
+                        }
+                    />
+                );
+            } else {
+                image = (
+                    <img
+                        alt="thumbnail"
+                        className="img-fluid w-100"
+                        src={thumbnailUrl + post.filename}
+                    />
+                );
+            }
             element = (
                 <Link
                     to={"/post/" + post.id}
                     className="post-thumbnail"
                     onClick={() => this.props.onShowPost(post.id)}
                 >
-                    <img
-                        alt="thumbnail"
-                        className="img-fluid w-100"
-                        src={thumbnailUrl + post.image}
-                    />
+                    {image}
                 </Link>
             );
         }
