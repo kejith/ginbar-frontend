@@ -15,6 +15,7 @@ import {
     postTagVoted,
     postTagCreated,
 } from "../../redux/actions/actions";
+import withAuthentication from "../User/withAuthentication";
 
 export const UPVOTED = 1;
 export const DOWNVOTED = -1;
@@ -334,25 +335,13 @@ class PostView extends Component {
                         </div>
                     </div>
                 </div>
-                {commentsLoaded ? (
-                    <CommentSection
-                        onCreated={this.handleCommentCreated}
-                        onVote={this.handleVote}
-                        postId={post.id}
-                        commentIds={post.comments}
-                    />
-                ) : (
-                    <div className="comment-section text-center ">
-                        <div>
-                            <span className="loading-comments-message">
-                                Kommentare werden geladen
-                            </span>
-                        </div>
-                        <div className="loading">
-                            <i className="fa fa-spinner fa-spin"></i>
-                        </div>
-                    </div>
-                )}
+
+                <CommentSection
+                    onCreated={this.handleCommentCreated}
+                    onVote={this.handleVote}
+                    postId={post.id}
+                    commentIds={post.comments}
+                />
             </div>
         );
     }
@@ -372,4 +361,7 @@ const mapDispatchToProps = {
     voteTag: postTagVoted,
     createTag: postTagCreated,
 };
-export default connect(mapStateToProps, mapDispatchToProps)(PostView);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withAuthentication(PostView));
