@@ -6,7 +6,9 @@ const urlUserApi = "http://kejith.de:8080/api/user/";
 
 const fetchAll = () => {
     try {
-        var promise = fetch("http://kejith.de:8080/api/post/")
+        var promise = fetch("http://kejith.de:8080/api/post/", {
+            credentials: "include",
+        })
             .then((response) => response.json())
             .then((data) => {
                 return data;
@@ -20,7 +22,7 @@ const fetchAll = () => {
 
 const fetchById = (postID) => {
     try {
-        var promise = fetch(urlPostApi + postID)
+        var promise = fetch(urlPostApi + postID, { credentials: "include" })
             .then((response) => response.json())
             .then((response) => {
                 return response.data;
@@ -35,6 +37,7 @@ const upsertVote = (vote) => {
     const requestOptions = {
         method: "POST",
         body: vote.formData,
+        credentials: "include",
     };
 
     try {
@@ -58,7 +61,11 @@ const voteComment = (data) => {
     formData.append("comment_id", data.commentID);
     formData.append("vote_state", data.voteState);
 
-    const requestOptions = { method: "POST", body: formData };
+    const requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
 
     try {
         var promise = fetch(urlCommentApi + "vote", requestOptions);
@@ -73,7 +80,11 @@ const votePost = (data) => {
     formData.append("post_id", data.postID);
     formData.append("vote_state", data.voteState);
 
-    const requestOptions = { method: "POST", body: formData };
+    const requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
 
     try {
         var promise = fetch(urlPostApi + "vote", requestOptions);
@@ -88,7 +99,11 @@ const votePostTag = (data) => {
     formData.append("post_tag_id", data.postTagID);
     formData.append("vote_state", data.voteState);
 
-    const requestOptions = { method: "POST", body: formData };
+    const requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
 
     try {
         var promise = fetch(urlTagApi + "vote", requestOptions);
@@ -106,6 +121,7 @@ const createTag = (data) => {
     const requestOptions = {
         method: "POST",
         body: formData,
+        credentials: "include",
     };
 
     try {
@@ -127,6 +143,7 @@ const createComment = (data) => {
     const requestOptions = {
         method: "POST",
         body: formData,
+        credentials: "include",
     };
 
     try {

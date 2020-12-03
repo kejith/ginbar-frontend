@@ -103,10 +103,10 @@ class PostView extends Component {
     }
 
     render() {
-        var { nextPostID, previousPostID, post, fetchState, tags } = this.props;
+        var { nextPostID, previousPostID, post, tags } = this.props;
         var { tagName, showFormAddTag } = this.state;
-        var commentsLoaded =
-            fetchState === "fulfilled" && post.comments !== null;
+        // var commentsLoaded =
+        //     fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
             new Date(post.created_at)
         );
