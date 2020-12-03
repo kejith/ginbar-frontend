@@ -1,7 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // TODO remove eslint disable
 import React, { Component } from "react";
-import { Button, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CommentSection from "../Comment";
 import { howLongAgoHumanReadable } from "../../utils";
@@ -16,6 +15,7 @@ import {
     postTagCreated,
 } from "../../redux/actions/actions";
 import withAuthentication from "../User/withAuthentication";
+import TagSection from "../Tags/TagSection";
 
 export const UPVOTED = 1;
 export const DOWNVOTED = -1;
@@ -43,8 +43,8 @@ class PostView extends Component {
     }
 
     scrollToMyRef = () => {
-        if (this.ref.current)
-            window.scrollTo(0, this.ref.current.offsetTop - 50);
+        // if (this.ref.current)
+        //     window.scrollTo(0, this.ref.current.offsetTop - 50);
     };
 
     handleCommentCreated = (createdComment) => {
@@ -64,29 +64,8 @@ class PostView extends Component {
         });
     };
 
-    handleCreateTag = async (e) => {
-        e.preventDefault();
-        this.props.createTag({
-            name: this.state.tagName,
-            postID: this.props.post.id,
-        });
-    };
-
     handleChange = (e) => {
         this.setState({ tagName: e.target.value });
-    };
-
-    handleTagVote = async (tagID, voteState) => {
-        // when we hit the same vote button as the current state we want to
-        // delete this vote
-
-        var tag = this.props.tags.find((tag) => tag.id === tagID);
-        if (tag.upvoted === voteState) voteState = 0;
-
-        this.props.voteTag({
-            postTagID: tagID,
-            voteState,
-        });
     };
 
     addVotedClass(classes, currentVoteState, isUpvoteButton) {
@@ -103,8 +82,7 @@ class PostView extends Component {
     }
 
     render() {
-        var { nextPostID, previousPostID, post, tags } = this.props;
-        var { tagName, showFormAddTag } = this.state;
+        var { nextPostID, previousPostID, post } = this.props;
         // var commentsLoaded =
         //     fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
@@ -224,114 +202,7 @@ class PostView extends Component {
                             ) : (
                                 ""
                             )}
-                            <div className="post-tags tags">
-                                <div className="tags-list">
-                                    {tags.map((tag) => (
-                                        <div
-                                            key={tag.id}
-                                            className="tag d-inline-block"
-                                        >
-                                            {tag.name}
-                                            <div
-                                                onClick={() =>
-                                                    this.handleTagVote(
-                                                        tag.id,
-                                                        1
-                                                    )
-                                                }
-                                                className={this.addVotedClass(
-                                                    "tag-vote-up vote vote-up d-inline-block",
-                                                    tag.upvoted,
-                                                    true
-                                                )}
-                                            >
-                                                <i className="fa fa-plus"></i>
-                                            </div>
-
-                                            <div
-                                                onClick={() =>
-                                                    this.handleTagVote(
-                                                        tag.id,
-                                                        -1
-                                                    )
-                                                }
-                                                className={this.addVotedClass(
-                                                    "tag-vote-down vote vote-down d-inline-block",
-                                                    tag.upvoted,
-                                                    false
-                                                )}
-                                            >
-                                                <i className="fa fa-minus"></i>
-                                            </div>
-                                        </div>
-                                    ))}
-                                    {!showFormAddTag ? (
-                                        <Link
-                                            href=""
-                                            to=""
-                                            onClick={() =>
-                                                this.setState({
-                                                    showFormAddTag: true,
-                                                })
-                                            }
-                                        >
-                                            Tag hinzufügen
-                                        </Link>
-                                    ) : (
-                                        ""
-                                    )}
-                                </div>
-                                {showFormAddTag ? (
-                                    <div
-                                        className="add-tag-container"
-                                        key="createTagContainer"
-                                    >
-                                        <Form
-                                            className=" d-block"
-                                            onSubmit={this.handleCreateTag}
-                                        >
-                                            <FormControl
-                                                as="input"
-                                                type="text"
-                                                name="tag_name"
-                                                onChange={this.handleChange}
-                                                className={
-                                                    (tagName !== ""
-                                                        ? "has-text "
-                                                        : "") +
-                                                    "d-inline-block h-100 add-tag-input"
-                                                }
-                                                placeholder="Tag Name..."
-                                                defaultValue={tagName}
-                                            />
-                                            <Button
-                                                variant="primary"
-                                                type="submit"
-                                                className="btn-sm add-tag-btn h-100 d-inline-block"
-                                            >
-                                                <span className="btn-text">
-                                                    Add
-                                                </span>
-                                            </Button>
-                                            <Button
-                                                variant="secondary"
-                                                className="btn-sm add-tag-btn h-100 d-inline-block"
-                                                onClick={() =>
-                                                    this.setState({
-                                                        showFormAddTag: false,
-                                                    })
-                                                }
-                                            >
-                                                <span className="btn-text">
-                                                    Cancel
-                                                </span>
-                                            </Button>
-                                        </Form>
-                                    </div>
-                                ) : (
-                                    ""
-                                )}
-                            </div>
+                            <TagSection postID={post.id} />
                         </div>
                     </div>
                 </div>
@@ -355,6 +226,7 @@ const mapStateToProps = (state, ownProps) => {
         tags: selectTagsByPostId(state, ownProps.postID),
     };
 };
+
 const mapDispatchToProps = {
     fetchPostById: fetchPostById,
     votePost: postVoted,
