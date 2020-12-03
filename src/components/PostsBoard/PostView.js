@@ -1,7 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 // TODO remove eslint disable
 import React, { Component } from "react";
-import { Button, Form, FormControl, FormGroup } from "react-bootstrap";
+import { Button, Form, FormControl } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import CommentSection from "../Comment";
 import { howLongAgoHumanReadable } from "../../utils";
@@ -128,7 +128,6 @@ class PostView extends Component {
                         class="media-video"
                         src={"http://kejith.de:8080/videos/" + post.filename}
                         type="video/mp4"
-                        loop=""
                         autoplay=""
                         controls
                         loop

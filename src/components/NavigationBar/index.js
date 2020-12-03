@@ -1,17 +1,16 @@
 import React, { Component } from "react";
 import UploadButton from "./UploadButton";
 import Login from "../User/Login";
-import isAuthenticated from "../Auth";
 import { Logout } from "../User/Logout";
 import { SignUp } from "../User/SignUp";
 import { connect } from "react-redux";
-import { selectLoginStatus } from "../../redux/slices/usersSlice";
+import withAuthentication from "../User/withAuthentication";
 
 export class NavigationBar extends Component {
     state = {};
     render() {
-        const { user, isLoggedIn } = this.props;
-        console.log(user);
+        const { currentUser, isAuthenticated } = this.props;
+
         return (
             <nav
                 id="main-navbar"
@@ -43,13 +42,15 @@ export class NavigationBar extends Component {
                                 tabIndex="-1"
                                 aria-disabled="true"
                             >
-                                {user !== null ? "Greetings, " + user.name : ""}
+                                {currentUser !== null
+                                    ? "Greetings, " + currentUser.name
+                                    : ""}
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                {isLoggedIn ? (
+                {isAuthenticated ? (
                     <div className="text-right navbar-buttons-right">
                         <UploadButton />
                         <Logout onLogout={this.props.onLogout} />
@@ -57,7 +58,7 @@ export class NavigationBar extends Component {
                 ) : (
                     ""
                 )}
-                {!isLoggedIn ? (
+                {!isAuthenticated ? (
                     <div className="text-right navbar-buttons-right">
                         <SignUp />
                         <Login onLogin={this.props.onLogin} />
@@ -71,10 +72,10 @@ export class NavigationBar extends Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-    return {
-        isLoggedIn: selectLoginStatus(state),
-        user: state.users.currentUser,
-    };
+    return {};
 };
 
-export default connect(mapStateToProps, null)(NavigationBar);
+export default connect(
+    mapStateToProps,
+    null
+)(withAuthentication(NavigationBar));

@@ -3,7 +3,6 @@ import {
     Modal,
     Button,
     ModalBody,
-    ModalFooter,
     ModalTitle,
     Form,
     FormGroup,

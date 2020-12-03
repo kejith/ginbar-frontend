@@ -47,9 +47,14 @@ export const usersSlice = createSlice({
     },
 });
 
-export const selectLoginStatus = createSelector(
+export const selectCurrentUser = createSelector(
     (state) => state.users,
-    (users) => users.currentUser !== null
+    (users) => users.currentUser
+);
+
+export const selectLoginStatus = createSelector(
+    selectCurrentUser,
+    (user) => user !== null
 );
 
 export const usersReducer = usersSlice.reducer;
