@@ -63,17 +63,17 @@ export const postSlice = createSlice({
             postsAdapter.upsertMany(state, posts);
         },
         [postVoted.fulfilled]: (state, action) => {
-            const { postID, voteState } = action.payload;
+            const { contentID, voteState } = action.payload;
 
             if (
                 state.entities.length === 0 ||
-                state.entities[postID] === undefined
+                state.entities[contentID] === undefined
             )
                 return;
 
-            var scoreDiff = voteState - state.entities[postID].upvoted;
-            state.entities[postID].upvoted = voteState;
-            state.entities[postID].score += scoreDiff;
+            var scoreDiff = voteState - state.entities[contentID].upvoted;
+            state.entities[contentID].upvoted = voteState;
+            state.entities[contentID].score += scoreDiff;
         },
         [commentCreated.fulfilled]: (state, action) => {
             const { result, entities } = action.payload;

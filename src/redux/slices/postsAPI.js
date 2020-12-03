@@ -58,7 +58,7 @@ const upsertVote = (vote) => {
 
 const voteComment = (data) => {
     let formData = new FormData();
-    formData.append("comment_id", data.commentID);
+    formData.append("comment_id", data.contentID);
     formData.append("vote_state", data.voteState);
 
     const requestOptions = {
@@ -77,7 +77,7 @@ const voteComment = (data) => {
 
 const votePost = (data) => {
     let formData = new FormData();
-    formData.append("post_id", data.postID);
+    formData.append("post_id", data.contentID);
     formData.append("vote_state", data.voteState);
 
     const requestOptions = {
@@ -96,7 +96,7 @@ const votePost = (data) => {
 
 const votePostTag = (data) => {
     let formData = new FormData();
-    formData.append("post_tag_id", data.postTagID);
+    formData.append("post_tag_id", data.contentID);
     formData.append("vote_state", data.voteState);
 
     const requestOptions = {

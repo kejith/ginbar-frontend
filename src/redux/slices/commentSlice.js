@@ -38,11 +38,11 @@ export const commentSlice = createSlice({
             commentsAdapter.upsertMany(state, comments);
         },
         [commentVoted.fulfilled]: (state, action) => {
-            const { commentID, voteState } = action.payload;
+            const { contentID, voteState } = action.payload;
 
-            var scoreDiff = voteState - state.entities[commentID].upvoted;
-            state.entities[commentID].upvoted = voteState;
-            state.entities[commentID].score += scoreDiff;
+            var scoreDiff = voteState - state.entities[contentID].upvoted;
+            state.entities[contentID].upvoted = voteState;
+            state.entities[contentID].score += scoreDiff;
         },
         [commentCreated.fulfilled]: (state, action) => {
             const { result, entities } = action.payload;

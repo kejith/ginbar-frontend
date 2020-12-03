@@ -150,6 +150,9 @@ video::-webkit-media-controls-panel {
   .tags .add-tag-container .add-tag-input { max-width: 200px; vertical-align: top; }
   .tags .add-tag-container .btn { border-radius: 0; vertical-align: top; margin-right: 0.5em;}
 
+  .tags .tag .vote-container { display: inline-block; position: relative; top: 0; left: 0; font-size: 14px; }
+  .tags .tag .vote-container .vote { display: inline-block;  }
+
 .post-media { position: relative; border: 2px solid #1e1e1e;  border-left: 0; border-right: 0; text-align: center;}
 .post-media img, .post-media video { text-align: center; max-width: 100%}
 
@@ -213,12 +216,12 @@ video::-webkit-media-controls-panel {
   .vote-parent { 
     position: relative; padding: 4px 0px 4px 32px; min-height: 52px; 
   }
-  .vote-container { position: absolute; top: 4px; left: 4px; }
-    .vote-up:hover, .vote-up.voted { color: #007bff }
-    .vote-down:hover, .vote-down.voted {  color: #e0751c; }
 
+  .vote-up:hover, .vote-up.voted { color: #007bff }
+  .vote-down:hover, .vote-down.voted {  color: #e0751c; }
 
-    .comment-vote-up, .comment-vote-down { width: 20px; height: 20px; }
+  .post-footer .vote-container, .comment-container .vote-container { position: absolute; top: 4px; left: 4px; }
+    .comment-container .vote-up, .comment-container .vote-down { width: 20px; height: 20px; }
     .comment-footer {
       font-size: 12px; padding-bottom: 8px; padding-top: 4px;
     }

@@ -16,6 +16,7 @@ import {
 } from "../../redux/actions/actions";
 import withAuthentication from "../User/withAuthentication";
 import TagSection from "../Tags/TagSection";
+import VoteContainer from "../Vote/VoteContainer";
 
 export const UPVOTED = 1;
 export const DOWNVOTED = -1;
@@ -43,8 +44,8 @@ class PostView extends Component {
     }
 
     scrollToMyRef = () => {
-        // if (this.ref.current)
-        //     window.scrollTo(0, this.ref.current.offsetTop - 50);
+        if (this.ref.current)
+            window.scrollTo(0, this.ref.current.offsetTop - 50);
     };
 
     handleCommentCreated = (createdComment) => {
@@ -158,7 +159,12 @@ class PostView extends Component {
                     </div>
                     <div className="post-footer ">
                         <div className="vote-parent d-inline-block">
-                            <div className="post-vote vote-container">
+                            <VoteContainer
+                                contentID={post.id}
+                                voteState={post.upvoted}
+                                voteAction={this.props.votePost}
+                            />
+                            {/* <div className="post-vote vote-container">
                                 <div
                                     onClick={() => this.handleVote(post.id, 1)}
                                     className={this.addVotedClass(
@@ -179,7 +185,7 @@ class PostView extends Component {
                                 >
                                     <i className="fa fa-minus"></i>
                                 </div>
-                            </div>
+                            </div> */}
                             <span className="score vote-score">
                                 {post.score}
                             </span>

@@ -25,16 +25,16 @@ export const tagsSlice = createSlice({
             tagsAdapter.upsertMany(state, action.payload.entities.tags);
         },
         [postTagVoted.fulfilled]: (state, action) => {
-            const { postTagID, voteState } = action.payload;
+            const { contentID, voteState } = action.payload;
             if (
                 state.entities.length === 0 ||
-                state.entities[postTagID] === undefined
+                state.entities[contentID] === undefined
             )
                 return;
 
-            var scoreDiff = voteState - state.entities[postTagID].upvoted;
-            state.entities[postTagID].upvoted = voteState;
-            state.entities[postTagID].score += scoreDiff;
+            var scoreDiff = voteState - state.entities[contentID].upvoted;
+            state.entities[contentID].upvoted = voteState;
+            state.entities[contentID].score += scoreDiff;
         },
     },
 });

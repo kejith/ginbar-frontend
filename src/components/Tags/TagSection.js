@@ -4,6 +4,8 @@ import { Button, Form, FormControl } from "react-bootstrap";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
 import { Link } from "react-router-dom";
 import isAuthenticated from "../User/withAuthentication";
+import VoteContainer from "../Vote/VoteContainer";
+import { postTagVoted } from "../../redux/actions/actions";
 
 class TagSection extends Component {
     constructor(props) {
@@ -52,33 +54,19 @@ class TagSection extends Component {
         const { tags, isAuthenticated } = this.props;
         const { showFormAddTag, tagName } = this.state;
 
+        console.log(this.props);
+
         return (
             <div className="post-tags tags">
                 <div className="tags-list">
                     {tags.map((tag) => (
                         <div key={tag.id} className="tag d-inline-block">
                             {tag.name}
-                            <div
-                                onClick={() => this.handleTagVote(tag.id, 1)}
-                                className={this.addVotedClass(
-                                    "tag-vote-up vote vote-up d-inline-block",
-                                    tag.upvoted,
-                                    true
-                                )}
-                            >
-                                <i className="fa fa-plus"></i>
-                            </div>
-
-                            <div
-                                onClick={() => this.handleTagVote(tag.id, -1)}
-                                className={this.addVotedClass(
-                                    "tag-vote-down vote vote-down d-inline-block",
-                                    tag.upvoted,
-                                    false
-                                )}
-                            >
-                                <i className="fa fa-minus"></i>
-                            </div>
+                            <VoteContainer
+                                contentID={tag.id}
+                                voteState={tag.upvoted}
+                                voteAction={this.props.voteTag}
+                            />
                         </div>
                     ))}
                     {!showFormAddTag && isAuthenticated ? (
@@ -149,4 +137,11 @@ const mapStateToProps = (state, ownProps) => {
     };
 };
 
-export default connect(mapStateToProps, null)(isAuthenticated(TagSection));
+const mapDispatchToProps = {
+    voteTag: postTagVoted,
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(isAuthenticated(TagSection));
