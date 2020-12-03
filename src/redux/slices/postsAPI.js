@@ -1,11 +1,12 @@
-var urlPostApi = "/api/post/";
-var urlCommentApi = "/api/comment/";
-var urlVoteApi = "/api/vote/";
-var urlTagApi = "/api/tag/";
+const urlPostApi = "http://kejith.de:8080/api/post/";
+const urlCommentApi = "http://kejith.de:8080/api/comment/";
+const urlVoteApi = "http://kejith.de:8080/api/vote/";
+const urlTagApi = "http://kejith.de:8080/api/tag/";
+const urlUserApi = "http://kejith.de:8080/api/user/";
 
 const fetchAll = () => {
     try {
-        var promise = fetch(urlPostApi)
+        var promise = fetch("http://kejith.de:8080/api/post/")
             .then((response) => response.json())
             .then((data) => {
                 return data;
@@ -139,6 +140,49 @@ const createComment = (data) => {
     }
 };
 
+const login = (data) => {
+    const formData = new FormData();
+    formData.append("name", data.userName);
+    formData.append("password", data.password);
+
+    let requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
+
+    try {
+        var promise = fetch(
+            urlUserApi + "login",
+            requestOptions
+        ).then((response) => response.json());
+
+        return promise;
+    } catch (err) {}
+};
+
+const logout = () => {
+    let requestOptions = { method: "post", credentials: "include" };
+
+    try {
+        var promise = fetch(urlUserApi + "logout", requestOptions);
+
+        return promise;
+    } catch (err) {}
+};
+
+const checkMe = () => {
+    try {
+        var promise = fetch("http://kejith.de:8080/api/check/me", {
+            credentials: "include",
+        });
+
+        return promise;
+    } catch (error) {
+        console.log(error);
+    }
+};
+
 const postAPI = {
     fetchAll,
     fetchById,
@@ -157,6 +201,12 @@ export const commentAPI = {
 export const tagAPI = {
     votePostTag,
     createTag,
+};
+
+export const userAPI = {
+    login,
+    checkMe,
+    logout,
 };
 
 export default postAPI;

@@ -3,6 +3,7 @@ import { postReducer } from "./slices/postSlice";
 import { votesReducer } from "./slices/voteSlice";
 import { commentsReducer } from "./slices/commentSlice";
 import { tagsReducer } from "./slices/tagsSlice";
+import { usersReducer } from "./slices/usersSlice";
 
 var storeConfig = {
     reducer: {
@@ -10,6 +11,7 @@ var storeConfig = {
         comments: commentsReducer,
         votes: votesReducer,
         tags: tagsReducer,
+        users: usersReducer,
     },
     middleware: [...getDefaultMiddleware()],
     devTools: process.env.NODE_ENV !== "production",

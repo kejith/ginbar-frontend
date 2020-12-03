@@ -1,9 +1,10 @@
 import { schema } from "normalizr";
 import { normalize } from "normalizr";
-import postAPI, { commentAPI, tagAPI } from "../slices/postsAPI";
+import postAPI, { commentAPI, tagAPI, userAPI } from "../slices/postsAPI";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const commentEntity = new schema.Entity("comments");
+const userEntity = new schema.Entity("users");
 const tagEntity = new schema.Entity("tags");
 
 const postEntity = new schema.Entity("posts", {
@@ -145,16 +146,18 @@ export const postTagCreated = createAsyncThunk(
     }
 );
 
-/*
-export const upsertVoteThunk = createAsyncThunk(
-    "posts/upsertVoteThunk",
-    async (votePayload, { dispatch, rejectWithValue }) => {
+export const userLoggedIn = createAsyncThunk(
+    "user/login",
+    async (payload, { dispatch, rejectWithValue }) => {
         try {
-            const promise = voteAPI.upsertVote(votePayload);
+            const promise = userAPI.login(payload);
             const data = await promise;
-            const normalized = normalize(data, voteEntity);
+
+            const normalized = normalize(data, userEntity);
+
             return normalized;
         } catch (err) {
+            console.log(err);
             if (!err.response) {
                 throw err;
             }
@@ -163,4 +166,51 @@ export const upsertVoteThunk = createAsyncThunk(
         }
     }
 );
-*/
+
+export const userChecked = createAsyncThunk(
+    "user/check",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = userAPI.checkMe(payload);
+            const response = await promise;
+
+            if (response.ok) {
+                var data = await response.json();
+                const normalized = normalize(data, userEntity);
+                return normalized;
+            } else {
+                return rejectWithValue(response.status);
+            }
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
+export const userLoggedOut = createAsyncThunk(
+    "user/logout",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = userAPI.logout();
+            const response = await promise;
+
+            if (response.ok) {
+                return;
+            } else {
+                return rejectWithValue(response.status);
+            }
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);

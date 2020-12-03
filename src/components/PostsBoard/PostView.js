@@ -148,34 +148,36 @@ class PostView extends Component {
                 id={"post-" + post.id}
                 href="post"
             >
-                <div className="post-media">
-                    {nextPostID !== -1 ? (
-                        <Link
-                            to={"/post/" + nextPostID}
-                            className="post-thumbnail "
-                            onClick={() => this.props.onShowNextPost()}
-                        >
-                            <div className="post-next">
-                                <i className="fa fa-chevron-right"></i>
-                            </div>
-                        </Link>
-                    ) : (
-                        ""
-                    )}
-                    {previousPostID !== -1 ? (
-                        <Link
-                            to={"/post/" + this.props.previousPostID}
-                            className="post-thumbnail "
-                            onClick={() => this.props.onShowPreviousPost()}
-                        >
-                            <div className="post-prev">
-                                <i className="fa fa-chevron-left"></i>
-                            </div>
-                        </Link>
-                    ) : (
-                        ""
-                    )}
-                    <div className="text-center post-media">{media}</div>
+                <div className="post-media-container">
+                    <div className="text-center post-media">
+                        {nextPostID !== -1 ? (
+                            <Link
+                                to={"/post/" + nextPostID}
+                                className="post-thumbnail "
+                                onClick={() => this.props.onShowNextPost()}
+                            >
+                                <div className="post-next">
+                                    <i className="fa fa-chevron-right"></i>
+                                </div>
+                            </Link>
+                        ) : (
+                            ""
+                        )}
+                        {previousPostID !== -1 ? (
+                            <Link
+                                to={"/post/" + this.props.previousPostID}
+                                className="post-thumbnail "
+                                onClick={() => this.props.onShowPreviousPost()}
+                            >
+                                <div className="post-prev">
+                                    <i className="fa fa-chevron-left"></i>
+                                </div>
+                            </Link>
+                        ) : (
+                            ""
+                        )}
+                        {media}
+                    </div>
                     <div className="post-footer ">
                         <div className="vote-parent d-inline-block">
                             <div className="post-vote vote-container">

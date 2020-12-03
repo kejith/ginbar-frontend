@@ -10,6 +10,10 @@ import {
     FormLabel,
     FormControl,
 } from "react-bootstrap";
+
+import { connect } from "react-redux";
+import { userLoggedIn } from "../../redux/actions/actions";
+
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 
 class Login extends Component {
@@ -45,28 +49,21 @@ class Login extends Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        // let values = { url: this.state.url };
+        var result = await this.props.loginUser({
+            userName: this.state.name,
+            password: this.state.password,
+        });
 
-        const data = new FormData();
-        data.append("name", this.state.name);
-        data.append("password", this.state.password);
+        console.log(result);
 
-        let requestOptions = {
-            method: "POST",
-            body: data,
-        };
-
-        try {
-            const response = await fetch("/api/user/login", requestOptions);
-            const data = await response.json();
-            if (response.status === 200) {
-                this.props.onLogin(data);
-            }
-        } catch (err) {}
+        if (result.type === "user/login/fulfilled") {
+            this.setState({ show: false });
+        }
     };
 
     render() {
         const { show, name, password } = this.state;
+
         return (
             <div className="d-inline-block">
                 <Button variant="primary" onClick={this.handleToggleModal}>
@@ -115,4 +112,8 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapDispatchToProps = {
+    loginUser: userLoggedIn,
+};
+
+export default connect(null, mapDispatchToProps)(Login);

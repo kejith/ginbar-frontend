@@ -4,6 +4,8 @@ import { Route, BrowserRouter as Router } from "react-router-dom";
 import PostsBoard from "../PostsBoard";
 import NavigationBar from "../NavigationBar";
 import isAuthenticated from "../Auth";
+import { connect } from "react-redux";
+import { userChecked, userLoggedOut } from "../../redux/actions/actions";
 
 class App extends React.Component {
     constructor(props) {
@@ -20,18 +22,17 @@ class App extends React.Component {
         }
     }
 
+    componentDidMount() {
+        this.props.checkUser();
+    }
+
     handleLogin = (data) => {
         localStorage.setItem("user", data.data);
         this.setState({ user: data.data });
     };
 
     handleLogout = async (data) => {
-        await fetch("/api/user/logout", { method: "POST" }).then((data) => {
-            if (!isAuthenticated()) {
-                localStorage.removeItem("user");
-                this.setState({ user: "" });
-            }
-        });
+        this.props.logout();
     };
 
     render() {
@@ -52,4 +53,8 @@ class App extends React.Component {
     }
 }
 
-export default App;
+const mapDispatchToProps = {
+    checkUser: userChecked,
+    logout: userLoggedOut,
+};
+export default connect(null, mapDispatchToProps)(App);

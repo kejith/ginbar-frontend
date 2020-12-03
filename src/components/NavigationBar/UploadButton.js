@@ -57,9 +57,10 @@ class UploadButton extends Component {
         };
 
         try {
-            await fetch("/api/post/create", requestOptions).then((data) =>
-                console.log(data)
-            );
+            await fetch(
+                "http://kejith.de:8080/api/post/create",
+                requestOptions
+            ).then((data) => console.log(data));
         } catch (err) {
             console.log(err);
         }
@@ -78,9 +79,10 @@ class UploadButton extends Component {
         };
 
         try {
-            await fetch("/api/post/upload", requestOptions).then((data) =>
-                console.log(data)
-            );
+            await fetch(
+                "http://kejith.de:8080/api/post/upload",
+                requestOptions
+            ).then((data) => console.log(data));
         } catch (err) {
             console.log(err);
         }

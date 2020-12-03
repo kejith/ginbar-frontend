@@ -4,11 +4,14 @@ import Login from "../User/Login";
 import isAuthenticated from "../Auth";
 import { Logout } from "../User/Logout";
 import { SignUp } from "../User/SignUp";
+import { connect } from "react-redux";
+import { selectLoginStatus } from "../../redux/slices/usersSlice";
 
 export class NavigationBar extends Component {
     state = {};
     render() {
-        const { user } = this.props;
+        const { user, isLoggedIn } = this.props;
+        console.log(user);
         return (
             <nav
                 id="main-navbar"
@@ -40,13 +43,13 @@ export class NavigationBar extends Component {
                                 tabIndex="-1"
                                 aria-disabled="true"
                             >
-                                {user !== "" ? "Greetings, " + user : ""}
+                                {user !== null ? "Greetings, " + user.name : ""}
                             </a>
                         </li>
                     </ul>
                 </div>
 
-                {isAuthenticated() ? (
+                {isLoggedIn ? (
                     <div className="text-right navbar-buttons-right">
                         <UploadButton />
                         <Logout onLogout={this.props.onLogout} />
@@ -54,7 +57,7 @@ export class NavigationBar extends Component {
                 ) : (
                     ""
                 )}
-                {!isAuthenticated() ? (
+                {!isLoggedIn ? (
                     <div className="text-right navbar-buttons-right">
                         <SignUp />
                         <Login onLogin={this.props.onLogin} />
@@ -67,4 +70,11 @@ export class NavigationBar extends Component {
     }
 }
 
-export default NavigationBar;
+const mapStateToProps = (state, ownProps) => {
+    return {
+        isLoggedIn: selectLoginStatus(state),
+        user: state.users.currentUser,
+    };
+};
+
+export default connect(mapStateToProps, null)(NavigationBar);

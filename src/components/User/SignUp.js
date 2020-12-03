@@ -61,7 +61,10 @@ export class SignUp extends Component {
         };
 
         try {
-            const response = await fetch("/api/user/create", requestOptions);
+            const response = await fetch(
+                "http://kejith.de:8080/api/user/create",
+                requestOptions
+            );
             if (response.status === 200) {
                 this.setState({ show: false });
             }
