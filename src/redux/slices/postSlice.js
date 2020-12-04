@@ -117,3 +117,8 @@ export const selectPostsByIds = createSelector(
         return result;
     }
 );
+
+export const selectLastID = createSelector(
+    selectPostIds,
+    (ids) => ids[ids.length - 1]
+);

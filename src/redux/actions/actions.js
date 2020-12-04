@@ -16,7 +16,7 @@ export const fetchAll = createAsyncThunk(
     "posts/fetchAll",
     async (payload, { dispatch, rejectWithValue }) => {
         try {
-            const promise = postAPI.fetchAll();
+            const promise = postAPI.fetchAll(payload);
 
             const data = await promise;
             const normalized = normalize(data, { posts: [postEntity] });

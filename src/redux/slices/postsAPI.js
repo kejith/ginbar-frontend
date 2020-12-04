@@ -4,11 +4,14 @@ const urlVoteApi = "http://kejith.de:8080/api/vote/";
 const urlTagApi = "http://kejith.de:8080/api/tag/";
 const urlUserApi = "http://kejith.de:8080/api/user/";
 
-const fetchAll = () => {
+const fetchAll = (data) => {
     try {
-        var promise = fetch("http://kejith.de:8080/api/post/", {
-            credentials: "include",
-        })
+        var promise = fetch(
+            "http://kejith.de:8080/api/post/?last_id=" + data.lastID,
+            {
+                credentials: "include",
+            }
+        )
             .then((response) => response.json())
             .then((data) => {
                 return data;

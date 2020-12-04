@@ -3,9 +3,11 @@ import PostsBoardRow from "./PostsBoardRow";
 import PostView from "./PostView";
 import { connect } from "react-redux";
 import { readPostIdFromUrl, getDimensionsOfElement } from "../../utils/";
+import InfiniteScroll from "react-infinite-scroller";
 
 import {
     postSlice,
+    selectLastID,
     selectPostEntities,
     selectPostIds,
     selectTotalPosts,
@@ -15,6 +17,7 @@ import { fetchAll } from "../../redux/actions/actions";
 
 class PostsBoard extends Component {
     postWidth = 150;
+    previousY = 0;
 
     constructor(props) {
         super(props);
@@ -82,7 +85,7 @@ class PostsBoard extends Component {
      * @memberof PostsBoard
      */
     loadPosts = async () => {
-        await this.props.fetchPosts();
+        await this.props.fetchPosts({ lastID: this.props.lastID });
     };
 
     /**
@@ -253,10 +256,21 @@ class PostsBoard extends Component {
                 rows.push(postView);
             }
         }
-
+        console.log(this.props.lastID);
         return (
             <div id="content" key="content-1" className="container-fluid px-0">
-                {rows.map((row) => row)}
+                <InfiniteScroll
+                    pageStart={0}
+                    loadMore={this.loadPosts}
+                    hasMore={true}
+                    loader={
+                        <div className="loader" key={0}>
+                            Loading ...
+                        </div>
+                    }
+                >
+                    {rows.map((row) => row)}
+                </InfiniteScroll>
             </div>
         );
     }
@@ -267,6 +281,7 @@ function mapStateToProps(state) {
         posts: selectPostEntities(state),
         postsIds: selectPostIds(state),
         totalPosts: selectTotalPosts(state),
+        lastID: selectLastID(state),
         previousPostId: state.posts.previous,
         nextPostId: state.posts.next,
         status: state.posts.fetchState,
