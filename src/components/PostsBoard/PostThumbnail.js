@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectors } from "../../redux/slices/postSlice";
+import { LazyLoadImage } from "react-lazy-load-image-component";
 
 const thumbnailUrl = "http://kejith.de:8080/images/thumbnails/";
 
@@ -13,33 +14,17 @@ class PostThumbnail extends Component {
         // with an empty .col element
         var element;
         if (post !== undefined) {
-            var image;
-            if (post.content_type !== "image") {
-                image = (
-                    <img
-                        alt="thumbnail"
-                        className="img-fluid w-100"
-                        src={
-                            thumbnailUrl + post.filename.split(".")[0] + ".png"
-                        }
-                    />
-                );
-            } else {
-                image = (
-                    <img
-                        alt="thumbnail"
-                        className="img-fluid w-100"
-                        src={thumbnailUrl + post.filename}
-                    />
-                );
-            }
             element = (
                 <Link
                     to={"/post/" + post.id}
                     className="post-thumbnail"
                     onClick={() => this.props.onShowPost(post.id)}
                 >
-                    {image}
+                    <LazyLoadImage
+                        alt="thumbnail"
+                        className="img-fluid w-100"
+                        src={thumbnailUrl + post.thumbnail_filename}
+                    />
                 </Link>
             );
         }
