@@ -8,24 +8,11 @@ import { connect } from "react-redux";
 import { selectors as postSelectors } from "../../redux/slices/postSlice";
 import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
-import {
-    fetchById as fetchPostById,
-    postVoted,
-    postTagVoted,
-    postTagCreated,
-} from "../../redux/actions/actions";
-import withAuthentication from "../User/withAuthentication";
+import { fetchById as fetchPostById } from "../../redux/actions/actions";
 import TagSection from "../Tags/TagSection";
 import VoteContainer from "../Vote/VoteContainer";
 
-export const UPVOTED = 1;
-export const DOWNVOTED = -1;
-
-export const IS_POST = 1;
-export const IS_COMMENT = 2;
-
 class PostView extends Component {
-    state = {};
     constructor(props) {
         super(props);
         this.ref = React.createRef();
@@ -37,6 +24,7 @@ class PostView extends Component {
         };
 
         this.props.fetchPostById(this.props.post.id);
+        this.scrollToMyRef();
     }
 
     componentDidMount() {
@@ -54,38 +42,12 @@ class PostView extends Component {
         this.setState({ comments: newComments });
     };
 
-    handleVote = async (postID, voteState) => {
-        // when we hit the same vote button as the current state we want to
-        // delete this vote
-        if (this.props.post.upvoted === voteState) voteState = 0;
-
-        this.props.votePost({
-            postID: postID,
-            voteState: voteState,
-        });
-    };
-
     handleChange = (e) => {
         this.setState({ tagName: e.target.value });
     };
 
-    addVotedClass(classes, currentVoteState, isUpvoteButton) {
-        if (currentVoteState === 0) return classes;
-
-        if (
-            (isUpvoteButton && currentVoteState === 1) ||
-            (!isUpvoteButton && currentVoteState === -1)
-        ) {
-            return classes + " voted";
-        }
-
-        return classes;
-    }
-
     render() {
         var { nextPostID, previousPostID, post } = this.props;
-        // var commentsLoaded =
-        //     fetchState === "fulfilled" && post.comments !== null;
         var stringHowLongAgo = howLongAgoHumanReadable(
             new Date(post.created_at)
         );
@@ -164,28 +126,6 @@ class PostView extends Component {
                                 voteState={post.upvoted}
                                 voteAction={this.props.votePost}
                             />
-                            {/* <div className="post-vote vote-container">
-                                <div
-                                    onClick={() => this.handleVote(post.id, 1)}
-                                    className={this.addVotedClass(
-                                        "post-vote-up vote vote-up ",
-                                        post.upvoted,
-                                        true
-                                    )}
-                                >
-                                    <i className="fa fa-plus"></i>
-                                </div>
-                                <div
-                                    onClick={() => this.handleVote(post.id, -1)}
-                                    className={this.addVotedClass(
-                                        "post-vote-down vote vote-down ",
-                                        post.upvoted,
-                                        false
-                                    )}
-                                >
-                                    <i className="fa fa-minus"></i>
-                                </div>
-                            </div> */}
                             <span className="score vote-score">
                                 {post.score}
                             </span>
@@ -235,11 +175,5 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
     fetchPostById: fetchPostById,
-    votePost: postVoted,
-    voteTag: postTagVoted,
-    createTag: postTagCreated,
 };
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(withAuthentication(PostView));
+export default connect(mapStateToProps, mapDispatchToProps)(PostView);
