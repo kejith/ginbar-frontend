@@ -4,10 +4,10 @@ import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import CommentSection from "../Comment";
 import { howLongAgoHumanReadable } from "../../utils";
-import { connect } from "react-redux";
 import { selectors as postSelectors } from "../../redux/slices/postSlice";
 import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
+import { connect } from "react-redux";
 import {
     fetchById as fetchPostById,
     postVoted,

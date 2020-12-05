@@ -4,7 +4,9 @@ import Login from "../User/Login";
 import { Logout } from "../User/Logout";
 import { SignUp } from "../User/SignUp";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import withAuthentication from "../User/withAuthentication";
+import { fetchAll } from "../../redux/actions/actions";
 
 export class NavigationBar extends Component {
     state = {};
@@ -31,9 +33,13 @@ export class NavigationBar extends Component {
                     className="collapse navbar-collapse"
                     id="navbarTogglerDemo01"
                 >
-                    <a className="navbar-brand" href="#1">
+                    <Link
+                        className="navbar-brand"
+                        onClick={() => this.props.loadNew({})}
+                        href="/"
+                    >
                         gin.bar
-                    </a>
+                    </Link>
                     <ul className="navbar-nav mr-auto mt-2 mt-lg-0">
                         <li className="nav-item">
                             <a
@@ -56,15 +62,10 @@ export class NavigationBar extends Component {
                         <Logout onLogout={this.props.onLogout} />
                     </div>
                 ) : (
-                    ""
-                )}
-                {!isAuthenticated ? (
                     <div className="text-right navbar-buttons-right">
                         <SignUp />
                         <Login onLogin={this.props.onLogin} />
                     </div>
-                ) : (
-                    ""
                 )}
             </nav>
         );
@@ -75,7 +76,11 @@ const mapStateToProps = (state, ownProps) => {
     return {};
 };
 
+const dispatchToProps = {
+    loadNew: fetchAll,
+};
+
 export default connect(
     mapStateToProps,
-    null
+    dispatchToProps
 )(withAuthentication(NavigationBar));

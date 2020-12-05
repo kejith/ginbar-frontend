@@ -11,6 +11,8 @@ import {
     FormText,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
+import { fetchAll } from "../../redux/actions/actions";
+import { connect } from "react-redux";
 
 class UploadButton extends Component {
     constructor(props) {
@@ -62,7 +64,8 @@ class UploadButton extends Component {
             );
             console.log(response);
             if (response.status === 200 || response.status === 204) {
-                this.setState({ show: false });
+                this.setState({ show: false, file: "", url: "" });
+                this.props.loadNew({});
             }
         } catch (err) {
             console.log(err);
@@ -89,7 +92,8 @@ class UploadButton extends Component {
 
             console.log(response);
             if (response.status === 200 || response.status === 204) {
-                this.setState({ show: false });
+                this.setState({ show: false, file: "", url: "" });
+                this.props.loadNew({});
             }
         } catch (err) {
             console.log(err);
@@ -177,4 +181,7 @@ class UploadButton extends Component {
     }
 }
 
-export default UploadButton;
+const mapDispatchToProps = {
+    loadNew: fetchAll,
+};
+export default connect(null, mapDispatchToProps)(UploadButton);
