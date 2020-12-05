@@ -8,7 +8,10 @@ import { connect } from "react-redux";
 import { selectors as postSelectors } from "../../redux/slices/postSlice";
 import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
-import { fetchById as fetchPostById } from "../../redux/actions/actions";
+import {
+    fetchById as fetchPostById,
+    postVoted,
+} from "../../redux/actions/actions";
 import TagSection from "../Tags/TagSection";
 import VoteContainer from "../Vote/VoteContainer";
 
@@ -175,5 +178,6 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
     fetchPostById: fetchPostById,
+    votePost: postVoted,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);

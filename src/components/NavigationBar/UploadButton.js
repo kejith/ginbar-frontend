@@ -52,14 +52,18 @@ class UploadButton extends Component {
         let requestOptions = {
             method: "POST",
             body: data,
-            cors: "no-cors",
+            credentials: "include",
         };
 
         try {
-            await fetch(
+            var response = await fetch(
                 "http://kejith.de:8080/api/post/create",
                 requestOptions
-            ).then((data) => console.log(data));
+            );
+            console.log(response);
+            if (response.status === 200 || response.status === 204) {
+                this.setState({ show: false });
+            }
         } catch (err) {
             console.log(err);
         }
@@ -72,16 +76,21 @@ class UploadButton extends Component {
         data.append("file", fileData);
 
         let requestOptions = {
-            cors: "no-cors",
             method: "POST",
             body: data,
+            credentials: "include",
         };
 
         try {
-            await fetch(
+            var response = await fetch(
                 "http://kejith.de:8080/api/post/upload",
                 requestOptions
-            ).then((data) => console.log(data));
+            );
+
+            console.log(response);
+            if (response.status === 200 || response.status === 204) {
+                this.setState({ show: false });
+            }
         } catch (err) {
             console.log(err);
         }
@@ -162,13 +171,6 @@ class UploadButton extends Component {
                             </Button>
                         </Form>
                     </ModalBody>
-
-                    {/* <ModalFooter>
-                        <Button variant="primary" type="submit">
-                            <span className="btn-icon-text">Upload</span>
-                            <i className="fa fa-upload"></i>
-                        </Button>
-                    </ModalFooter> */}
                 </Modal>
             </div>
         );
