@@ -62,7 +62,7 @@ class UploadButton extends Component {
                 "http://kejith.de:8080/api/post/create",
                 requestOptions
             );
-            console.log(response);
+
             if (response.status === 200 || response.status === 204) {
                 this.setState({ show: false, file: "", url: "" });
                 this.props.loadNew({});
@@ -90,7 +90,6 @@ class UploadButton extends Component {
                 requestOptions
             );
 
-            console.log(response);
             if (response.status === 200 || response.status === 204) {
                 this.setState({ show: false, file: "", url: "" });
                 this.props.loadNew({});

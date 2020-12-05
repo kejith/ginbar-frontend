@@ -15,14 +15,12 @@ export class Comment extends Component {
     componentDidMount() {
         const { comment, createdCommentID } = this.props;
         if (createdCommentID === comment.id) {
-            console.log("scrolly");
             this.scrollToMyRef();
         }
     }
 
     scrollToMyRef = () => {
         if (this.ref.current) {
-            console.log("scroll scroll");
             window.scrollTo(0, this.ref.current.offsetTop - 50);
         }
     };

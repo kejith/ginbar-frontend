@@ -54,8 +54,6 @@ class Login extends Component {
             password: this.state.password,
         });
 
-        console.log(result);
-
         if (result.type === "user/login/fulfilled") {
             this.setState({ show: false });
         }

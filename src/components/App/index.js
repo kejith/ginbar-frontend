@@ -6,6 +6,7 @@ import NavigationBar from "../NavigationBar";
 import isAuthenticated from "../Auth";
 import { connect } from "react-redux";
 import { userChecked, userLoggedOut } from "../../redux/actions/actions";
+import { trackWindowScroll } from "react-lazy-load-image-component";
 
 class App extends React.Component {
     constructor(props) {
