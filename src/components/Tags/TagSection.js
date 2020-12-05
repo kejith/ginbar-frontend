@@ -54,8 +54,6 @@ class TagSection extends Component {
         const { tags, isAuthenticated } = this.props;
         const { showFormAddTag, tagName } = this.state;
 
-        console.log(this.props);
-
         return (
             <div className="post-tags tags">
                 <div className="tags-list">

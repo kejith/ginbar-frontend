@@ -63,7 +63,7 @@ class PostView extends Component {
                     <img
                         alt="fickdich"
                         className="img-fluid"
-                        src={"http://kejith.de:8080/images/" + post.filename}
+                        src={"https://kejith.de/images/" + post.filename}
                     />
                 );
                 break;
@@ -71,7 +71,7 @@ class PostView extends Component {
                 media = (
                     <video
                         class="media-video"
-                        src={"http://kejith.de:8080/videos/" + post.filename}
+                        src={"https://kejith.de/videos/" + post.filename}
                         type="video/mp4"
                         autoplay=""
                         controls

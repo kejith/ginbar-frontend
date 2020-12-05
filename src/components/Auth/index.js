@@ -2,7 +2,6 @@ function isAuthenticated() {
     let cookieIndex = document.cookie.indexOf("gbsession");
     if (cookieIndex === -1) return false;
 
-    console.log(document.cookie);
     // check if we have a user logged in
     let user = localStorage.getItem("user");
     if (user && user !== "") {
@@ -18,7 +17,7 @@ function isAuthenticated() {
 
 async function checkUserFromServer() {
     try {
-        const response = await fetch("http://kejith.de:8080/api/check/me", {
+        const response = await fetch("https://kejith.de/api/check/me", {
             method: "GET",
         });
         const data = await response.json();

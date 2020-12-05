@@ -53,12 +53,21 @@ class PostsBoard extends Component {
 
     componentDidMount() {
         this.loadPosts();
+        window.addEventListener("popstate", this.popStateListener.bind(this));
         window.addEventListener("resize", this.updateDimensions);
     }
 
     componentWillUnmount() {
+        window.removeEventListener(
+            "popstate",
+            this.popStateListener.bind(this)
+        );
         window.removeEventListener("resize", this.updateDimensions);
         document.removeEventListener("keydown", this.onKeyPressed.bind(this));
+    }
+
+    popStateListener(e) {
+        this.props.changeCurrentPost(parseInt(readPostIdFromUrl()));
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -141,7 +150,9 @@ class PostsBoard extends Component {
         // current postview will be closed
         if (currentPostShown === postID) {
             this.props.changeCurrentPost(0);
+            //window.history.pushState("", "", "/");
         } else {
+            //window.history.pushState("", "", "/post/" + postID);
             this.props.changeCurrentPost(postID);
         }
     };
@@ -156,7 +167,7 @@ class PostsBoard extends Component {
         const { changeCurrentPost } = this.props;
         var nextPostId = this.getNextPostId();
         if (nextPostId !== 0) {
-            window.history.pushState("", "", "/post/" + nextPostId);
+            //window.history.pushState("", "", "/post/" + nextPostId);
             changeCurrentPost(nextPostId);
         }
     };
@@ -188,7 +199,7 @@ class PostsBoard extends Component {
 
         var previousPostId = this.getPreviousPostId();
         if (previousPostId > 0) {
-            window.history.pushState("", "", "/post/" + previousPostId);
+            //window.history.pushState("", "", "/post/" + previousPostId);
             changeCurrentPost(previousPostId);
         }
     };
@@ -256,7 +267,7 @@ class PostsBoard extends Component {
                 rows.push(postView);
             }
         }
-        console.log(this.props.lastID);
+
         return (
             <div id="content" key="content-1" className="container-fluid px-0">
                 <InfiniteScroll
