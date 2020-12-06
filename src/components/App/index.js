@@ -6,7 +6,7 @@ import NavigationBar from "../NavigationBar";
 import isAuthenticated from "../Auth";
 import { connect } from "react-redux";
 import { userChecked, userLoggedOut } from "../../redux/actions/actions";
-import { trackWindowScroll } from "react-lazy-load-image-component";
+import { volumeChanged } from "../../redux/slices/appSlice";
 
 class App extends React.Component {
     constructor(props) {
@@ -21,6 +21,10 @@ class App extends React.Component {
                 user: "",
             };
         }
+
+        this.props.changeVolume(
+            parseFloat(localStorage.getItem("volume") || 0)
+        );
     }
 
     componentDidMount() {
@@ -57,5 +61,6 @@ class App extends React.Component {
 const mapDispatchToProps = {
     checkUser: userChecked,
     logout: userLoggedOut,
+    changeVolume: volumeChanged,
 };
 export default connect(null, mapDispatchToProps)(App);

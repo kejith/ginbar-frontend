@@ -17,7 +17,7 @@ function isAuthenticated() {
 
 async function checkUserFromServer() {
     try {
-        const response = await fetch("https://kejith.de/api/check/me", {
+        const response = await fetch("http://kejith.de:8080/api/check/me", {
             method: "GET",
         });
         const data = await response.json();

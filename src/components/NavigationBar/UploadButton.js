@@ -59,7 +59,7 @@ class UploadButton extends Component {
 
         try {
             var response = await fetch(
-                "https://kejith.de/api/post/create",
+                "http://kejith.de:8080/api/post/create",
                 requestOptions
             );
 
@@ -86,7 +86,7 @@ class UploadButton extends Component {
 
         try {
             var response = await fetch(
-                "https://kejith.de/api/post/upload",
+                "http://kejith.de:8080/api/post/upload",
                 requestOptions
             );
 

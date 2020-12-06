@@ -14,6 +14,7 @@ import {
 } from "../../redux/actions/actions";
 import TagSection from "../Tags/TagSection";
 import VoteContainer from "../Vote/VoteContainer";
+import { selectVolume, volumeChanged } from "../../redux/slices/appSlice";
 
 class PostView extends Component {
     constructor(props) {
@@ -49,6 +50,17 @@ class PostView extends Component {
         this.setState({ tagName: e.target.value });
     };
 
+    handleVolumeChange = (e) => {
+        localStorage.setItem("volume", parseFloat(e.target.volume));
+        this.props.changeVolume(parseFloat(e.target.volume));
+    };
+
+    componentDidUpdate() {
+        var video = document.getElementById("media-video");
+        if (video !== null && video !== undefined)
+            video.volume = this.props.volume;
+    }
+
     render() {
         var { nextPostID, previousPostID, post } = this.props;
         var stringHowLongAgo = howLongAgoHumanReadable(
@@ -63,20 +75,25 @@ class PostView extends Component {
                     <img
                         alt="fickdich"
                         className="img-fluid"
-                        src={"https://kejith.de/images/" + post.filename}
+                        src={"http://kejith.de:8080/images/" + post.filename}
                     />
                 );
                 break;
             case "video":
                 media = (
                     <video
+                        id="media-video"
                         class="media-video"
-                        src={"https://kejith.de/videos/" + post.filename}
+                        src={"http://kejith.de:8080/videos/" + post.filename}
                         type="video/mp4"
                         autoplay=""
                         controls
                         loop
                         preload="auto"
+                        volume={
+                            this.props.volume !== null ? this.props.volume : 0
+                        }
+                        onVolumeChange={this.handleVolumeChange}
                     ></video>
                 );
                 break;
@@ -173,11 +190,13 @@ const mapStateToProps = (state, ownProps) => {
         post: postSelectors.selectById(state, ownProps.postID),
         comments: selectCommentsByPostId(state, ownProps),
         tags: selectTagsByPostId(state, ownProps.postID),
+        volume: state.app.volume,
     };
 };
 
 const mapDispatchToProps = {
     fetchPostById: fetchPostById,
     votePost: postVoted,
+    changeVolume: volumeChanged,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);
