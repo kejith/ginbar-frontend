@@ -14,7 +14,7 @@ import {
 } from "../../redux/actions/actions";
 import TagSection from "../Tags/TagSection";
 import VoteContainer from "../Vote/VoteContainer";
-import { selectVolume, volumeChanged } from "../../redux/slices/appSlice";
+import { volumeChanged } from "../../redux/slices/appSlice";
 
 class PostView extends Component {
     constructor(props) {
@@ -25,14 +25,27 @@ class PostView extends Component {
         this.state = {
             tagName: "",
             showFormAddTag: false,
+            width: 0,
+            height: 0,
         };
 
         this.props.fetchPostById(this.props.post.id);
+        this.updateWindowDimensions = this.updateWindowDimensions.bind(this);
         this.scrollToMyRef();
     }
 
+    updateWindowDimensions() {
+        this.setState({ width: window.innerWidth, height: window.innerHeight });
+    }
+
     componentDidMount() {
+        this.updateWindowDimensions();
+        window.addEventListener("resize", this.updateWindowDimensions);
         this.scrollToMyRef();
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener("resize", this.updateWindowDimensions);
     }
 
     scrollToMyRef = () => {
@@ -87,6 +100,7 @@ class PostView extends Component {
                         src={"http://kejith.de:8080/videos/" + post.filename}
                         type="video/mp4"
                         autoplay=""
+                        height={this.state.height - 57}
                         controls
                         loop
                         preload="auto"
