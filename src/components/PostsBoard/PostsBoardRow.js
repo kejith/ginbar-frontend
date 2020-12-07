@@ -7,6 +7,9 @@ class PostsBoardRow extends Component {
 
         // fill the rest of the row with empty elements if it's a short row
         // negative IDs will be empty
+
+        console.log(postIds);
+
         for (var i = postIds.length; i < postsPerRow; i++) {
             postIds.push(-i);
         }

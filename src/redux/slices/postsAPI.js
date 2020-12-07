@@ -120,6 +120,7 @@ const votePostTag = (data) => {
 
 const createTag = (data) => {
     const formData = new FormData();
+    console.log(data);
     formData.append("name", data.name);
     formData.append("post_id", data.postID);
 

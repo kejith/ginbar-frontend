@@ -96,10 +96,10 @@ class PostView extends Component {
                 media = (
                     <video
                         id="media-video"
-                        class="media-video"
+                        className="media-video"
                         src={"http://kejith.de:8080/videos/" + post.filename}
                         type="video/mp4"
-                        autoplay=""
+                        autoPlay
                         height={this.state.height - 57}
                         controls
                         loop

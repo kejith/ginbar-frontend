@@ -1,12 +1,11 @@
 body {
   background-color: #1e1e1e;
   padding-left: 4px; padding-right: 4px;
+
 }
 
-a { color: #75c0c7; }
-a:hover { text-decoration: none; }
-
-a:hover { color: #F5F7F6}
+a, .link { color: #75c0c7; }
+a:hover, .link:hover { text-decoration: none; color: #F5F7F6; cursor: pointer; }
 
 .App {
   text-align: center;
@@ -153,6 +152,7 @@ video::-webkit-media-controls-panel {
   .tags .tag .vote-container { display: inline-block; position: relative; top: 0; left: 0; font-size: 14px; }
   .tags .tag .vote-container .vote { display: inline-block;  }
 
+.post-view { max-width: 1366px; margin-left: auto; margin-right: auto;  }
 .post-media { position: relative; border: 2px solid #1e1e1e;  border-left: 0; border-right: 0; text-align: center;}
 .post-media img, .post-media video { text-align: center; max-width: 100%; }
 
@@ -203,6 +203,7 @@ video::-webkit-media-controls-panel {
     background-color: #1B1E1F !important; color: #bbb !important; 
     border-radius: 0; border: 1px solid #333 !important; text-align: left; 
     font-size: 13px; 
+    width: 560px;
   }
   .comment-section textarea:focus, .comment-section textarea.has-text {  box-shadow: 0 0 0 0; height: 120px; }
 

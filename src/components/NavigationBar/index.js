@@ -36,7 +36,7 @@ export class NavigationBar extends Component {
                     <Link
                         className="navbar-brand"
                         onClick={() => this.props.loadNew({})}
-                        href="/"
+                        to="/"
                     >
                         gin.bar
                     </Link>

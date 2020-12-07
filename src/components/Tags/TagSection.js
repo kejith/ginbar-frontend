@@ -5,7 +5,7 @@ import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
 import { Link } from "react-router-dom";
 import isAuthenticated from "../User/withAuthentication";
 import VoteContainer from "../Vote/VoteContainer";
-import { postTagVoted } from "../../redux/actions/actions";
+import { postTagVoted, postTagCreated } from "../../redux/actions/actions";
 
 class TagSection extends Component {
     constructor(props) {
@@ -29,12 +29,32 @@ class TagSection extends Component {
         return classes;
     }
 
+    toggleShowCreateTag() {
+        this.setState({
+            showFormAddTag: !this.state.showFormAddTag,
+        });
+    }
+
+    handleChange = (e) => {
+        switch (e.target.name) {
+            case "tag_name":
+                this.setState({ tagName: e.target.value });
+                break;
+            default:
+                break;
+        }
+    };
+
     handleCreateTag = async (e) => {
         e.preventDefault();
-        this.props.createTag({
+        var res = await this.props.createTag({
             name: this.state.tagName,
-            postID: this.props.post.id,
+            postID: this.props.postID,
         });
+
+        if ((res.type = "tags/create/fulfilled")) {
+            this.toggleShowCreateTag();
+        }
     };
 
     handleTagVote = async (tagID, voteState) => {
@@ -68,9 +88,9 @@ class TagSection extends Component {
                         </div>
                     ))}
                     {!showFormAddTag && isAuthenticated ? (
-                        <Link
+                        <span
+                            className="link add-tag-link"
                             href=""
-                            to=""
                             onClick={() =>
                                 this.setState({
                                     showFormAddTag: true,
@@ -78,7 +98,7 @@ class TagSection extends Component {
                             }
                         >
                             Tag hinzufügen
-                        </Link>
+                        </span>
                     ) : (
                         ""
                     )}
@@ -137,6 +157,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = {
     voteTag: postTagVoted,
+    createTag: postTagCreated,
 };
 
 export default connect(
