@@ -66,6 +66,8 @@ class UploadButton extends Component {
             if (response.status === 200 || response.status === 204) {
                 this.setState({ show: false, file: "", url: "" });
                 this.props.loadNew({});
+            } else {
+                console.log(response.status);
             }
         } catch (err) {
             console.log(err);
@@ -117,10 +119,7 @@ class UploadButton extends Component {
                             className="upload-form"
                             onSubmit={this.handleSubmit}
                         >
-                            <FormGroup
-                                className="upload-group"
-                                controlId="formURL"
-                            >
+                            <FormGroup className="upload-group">
                                 <FormLabel>URL</FormLabel>
                                 <FormControl
                                     type="text"
@@ -147,10 +146,7 @@ class UploadButton extends Component {
                             className="upload-form"
                             onSubmit={this.handleUploadSubmit}
                         >
-                            <FormGroup
-                                className="upload-group"
-                                controlId="formFile"
-                            >
+                            <FormGroup className="upload-group">
                                 <FormLabel>Upload File</FormLabel>
                                 <FormControl
                                     type="file"
