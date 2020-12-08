@@ -5,11 +5,19 @@ import { commentVoted } from "../../redux/actions/actions";
 
 import { connect } from "react-redux";
 import VoteContainer from "../Vote/VoteContainer";
+import styled, { keyframes } from "styled-components";
+import { flash } from "react-animations";
+import { ConditionalWrapper } from "../../utils/";
+
+const bounceAnimation = keyframes`${flash}`;
+const BouncyDiv = styled.div`
+    animation: 2s ${bounceAnimation};
+`;
+
 export class Comment extends Component {
     constructor(props) {
         super(props);
-
-        this.ref = React.createRef();
+        this.myRef = React.createRef();
     }
 
     componentDidMount() {
@@ -19,11 +27,23 @@ export class Comment extends Component {
         }
     }
 
-    scrollToMyRef = () => {
-        if (this.ref.current) {
-            window.scrollTo(0, this.ref.current.offsetTop - 50);
+    componentDidUpdate() {
+        const { comment, createdCommentID } = this.props;
+        if (createdCommentID === comment.id) {
+            this.scrollToMyRef();
         }
+    }
+
+    scrollToMyRef = () => {
+        window.scrollTo(0, this.myRef.current.offsetTop);
+        // var id = "created-comment-" + this.props.comment.id;
+        // const yOffset = 0;
+        // const element = document.getElementById(id);
+        // const y = element.getBoundingClientRect().bottom + yOffset;
+        // window.scrollTo({ top: y, behavior: "smooth" });
     };
+
+    scrollToCreatedComment = () => {};
 
     addVotedClass(isUpvoted) {
         var { comment } = this.props;
@@ -55,28 +75,35 @@ export class Comment extends Component {
         if (comment === undefined) return <div></div>;
 
         var isCreated = createdCommentID === comment.id;
-        var active = "";
-        if (isCreated) active = "active";
+
+        console.log(comment);
 
         return (
-            <div
-                className={"comment-container vote-parent " + active}
-                ref={this.ref}
+            <ConditionalWrapper
+                condition={isCreated}
+                wrapper={(children) => (
+                    <BouncyDiv ref={this.myRef}>{children}</BouncyDiv>
+                )}
             >
-                <VoteContainer
-                    contentID={comment.id}
-                    voteState={comment.upvoted}
-                    voteAction={this.props.voteComment}
-                />
+                <div
+                    id={"created-comment-" + comment.id}
+                    className={"comment-container vote-parent "}
+                >
+                    <VoteContainer
+                        contentID={comment.id}
+                        voteState={comment.upvoted}
+                        voteAction={this.props.voteComment}
+                    />
 
-                <div className="comment-content">{comment.content}</div>
-                <div className="comment-footer">
-                    <span className="comment-author">{comment.user}</span>
-                    <span className="comment-score">
-                        {comment.score} Punkte
-                    </span>
+                    <div className="comment-content">{comment.content}</div>
+                    <div className="comment-footer">
+                        <span className="comment-author">{comment.user}</span>
+                        <span className="comment-score">
+                            {comment.score} Punkte
+                        </span>
+                    </div>
                 </div>
-            </div>
+            </ConditionalWrapper>
         );
     }
 }

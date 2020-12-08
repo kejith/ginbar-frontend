@@ -100,7 +100,7 @@ class PostView extends Component {
                         src={"http://kejith.de:8080/videos/" + post.filename}
                         type="video/mp4"
                         autoPlay
-                        height={this.state.height - 57}
+                        style={{ "max-height": this.state.height - 57 }}
                         controls
                         loop
                         preload="auto"

@@ -19,18 +19,22 @@ export class CreateCommentForm extends Component {
         this.setState({ comment: e.target.value });
     };
 
-    handleSubmit = (e) => {
+    handleSubmit = async (e) => {
         e.preventDefault();
 
-        this.props.createCommentTest({
+        var promise = await this.props.createCommentTest({
             postID: this.props.postID,
             content: this.state.comment,
         });
+
+        if (promise.type === "comments/create/fulfilled") {
+            this.setState({ comment: "" });
+        }
     };
 
     render() {
         const { comment } = this.state;
-    
+
         return (
             <Form onSubmit={this.handleSubmit}>
                 <FormGroup controlId="formContent">
@@ -57,7 +61,7 @@ const mapStateToProps = (state, ownProps) => {
 };
 
 const mapDispatchToProps = {
-    createCommentTest: commentCreated
+    createCommentTest: commentCreated,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(CreateCommentForm);

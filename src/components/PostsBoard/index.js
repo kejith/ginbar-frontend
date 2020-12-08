@@ -4,6 +4,7 @@ import PostView from "./PostView";
 import { connect } from "react-redux";
 import { readPostIdFromUrl, getDimensionsOfElement } from "../../utils/";
 import InfiniteScroll from "react-infinite-scroller";
+import { bounce } from "react-animations";
 
 import {
     postSlice,

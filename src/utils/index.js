@@ -111,3 +111,6 @@ export function howLongAgoHumanReadable(earlierDate) {
 
     return "einem Jahr";
 }
+
+export const ConditionalWrapper = ({ condition, wrapper, children }) =>
+    condition ? wrapper(children) : children;
