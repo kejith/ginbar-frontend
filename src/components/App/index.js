@@ -1,8 +1,8 @@
 import "./App.css";
 import React from "react";
 import { Route, BrowserRouter as Router } from "react-router-dom";
-import PostsBoard from "../PostsBoard";
-import NavigationBar from "../NavigationBar";
+import PostsBoard from "../Posts/PostBoard";
+import NavigationBar from "../Navigation/NavigationBar";
 import isAuthenticated from "../Auth";
 import { connect } from "react-redux";
 import { userChecked, userLoggedOut } from "../../redux/actions/actions";

@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import PostsBoardRow from "./PostsBoardRow";
 import PostView from "./PostView";
 import { connect } from "react-redux";
-import { readPostIdFromUrl, getDimensionsOfElement } from "../../utils/";
+import { readPostIdFromUrl, getDimensionsOfElement } from "../../utils";
 import InfiniteScroll from "react-infinite-scroller";
-import { bounce } from "react-animations";
 
 import {
     postSlice,

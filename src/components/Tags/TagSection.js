@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { Button, Form, FormControl } from "react-bootstrap";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
-import { Link } from "react-router-dom";
 import isAuthenticated from "../User/withAuthentication";
 import VoteContainer from "../Vote/VoteContainer";
 import { postTagVoted, postTagCreated } from "../../redux/actions/actions";

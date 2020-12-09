@@ -1,20 +1,25 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
-// TODO remove eslint disable
+// React imports
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
-import CommentSection from "../Comment";
+
+// Utitlity imports
 import { howLongAgoHumanReadable } from "../../utils";
+
+// Building Blocks imports
+import VoteContainer from "../Vote/VoteContainer";
+import CommentSection from "../Comments/CommentSection";
+import TagSection from "../Tags/TagSection";
+
+// Redux related imports
 import { selectors as postSelectors } from "../../redux/slices/postSlice";
 import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
+import { volumeChanged } from "../../redux/slices/appSlice";
 import { connect } from "react-redux";
 import {
     fetchById as fetchPostById,
     postVoted,
 } from "../../redux/actions/actions";
-import TagSection from "../Tags/TagSection";
-import VoteContainer from "../Vote/VoteContainer";
-import { volumeChanged } from "../../redux/slices/appSlice";
 
 class PostView extends Component {
     constructor(props) {
@@ -165,13 +170,13 @@ class PostView extends Component {
                             </span>
                         </div>
                         <div className="post-details d-inline-block">
-                            <a className="time" href="">
+                            <span className="time" href="">
                                 vor {stringHowLongAgo}
-                            </a>
+                            </span>
                             <span className="time"> von </span>
-                            <a className="user" href="">
+                            <Link className="user" href={"/user/" + post.user}>
                                 {post.user}
-                            </a>
+                            </Link>
                             {post.url !== "" ? (
                                 <span className="post-source">
                                     <i className="fa fa-link"></i>{" "}
