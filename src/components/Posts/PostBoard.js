@@ -7,17 +7,34 @@ import InfiniteScroll from "react-infinite-scroller";
 
 import {
     postSlice,
-    selectLastID,
+    selectHighestID,
+    selectLowestID,
     selectPostEntities,
     selectPostIds,
     selectTotalPosts,
 } from "../../redux/slices/postSlice";
 
 import { fetchAll } from "../../redux/actions/actions";
+import { TransitionGroup } from "react-transition-group";
 
 class PostsBoard extends Component {
     postWidth = 150;
     previousY = 0;
+
+    lowestID = 0;
+    highestID = 0;
+
+    isLoadingOlderPosts = false;
+    isLoadingNewerPosts = false;
+
+    hasMoreNew = true;
+    hasMoreOld = true;
+
+    previousScrollTop = 0;
+    previousOffset = 0;
+    previousTotalHeight = 0;
+
+    isScrollingDown = true;
 
     constructor(props) {
         super(props);
@@ -29,9 +46,8 @@ class PostsBoard extends Component {
             height: 0,
             postsPerRow: 1,
         };
-
-        this.props.changeCurrentPost(parseInt(readPostIdFromUrl()));
         this.updateDimensions = this.updateDimensions.bind(this);
+        this.scrollHandler = this.scrollHandler.bind(this);
     }
 
     /**
@@ -47,7 +63,7 @@ class PostsBoard extends Component {
 
     componentWillMount() {
         this.updateDimensions();
-
+        document.addEventListener("scroll", this.scrollHandler.bind(this));
         document.addEventListener("keydown", this.onKeyPressed.bind(this));
     }
 
@@ -62,12 +78,61 @@ class PostsBoard extends Component {
             "popstate",
             this.popStateListener.bind(this)
         );
+
+        document.removeEventListener("scroll", this.scrollHandler.bind(this));
         window.removeEventListener("resize", this.updateDimensions);
         document.removeEventListener("keydown", this.onKeyPressed.bind(this));
     }
 
     popStateListener(e) {
         this.props.changeCurrentPost(parseInt(readPostIdFromUrl()));
+    }
+
+    scrollHandler = () => {
+        var d = document.documentElement;
+        var scrollTop = d.scrollTop;
+        var offset = scrollTop + window.innerHeight;
+        var height = d.offsetHeight;
+
+        this.isScrollingDown = scrollTop - this.previousScrollTop >= 0;
+        this.previousScrollTop = scrollTop;
+
+        if (
+            offset + 150 >= height &&
+            !this.isLoadingOlderPosts &&
+            this.hasMoreOld &&
+            this.isScrollingDown
+        ) {
+            this.loadOlderPosts();
+        }
+
+        if (
+            scrollTop <= 300 &&
+            this.hasMoreNew &&
+            !this.isLoadingNewerPosts &&
+            !this.isScrollingDown
+        ) {
+            this.previousOffset = scrollTop;
+            this.previousTotalHeight = window.document.body.offsetHeight;
+            this.loadNewerPosts();
+        }
+    };
+
+    componentDidUpdate() {
+        // if we load not enough posts so we can scroll on the site lets
+        // load more
+        if (
+            document.body.offsetHeight < window.innerHeight &&
+            !this.isLoadingOlderPosts
+        )
+            this.loadOlderPosts();
+
+        window.scrollTo(
+            0,
+            window.document.body.offsetHeight -
+                this.previousTotalHeight +
+                this.previousOffset
+        );
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -94,7 +159,42 @@ class PostsBoard extends Component {
      * @memberof PostsBoard
      */
     loadPosts = async () => {
-        await this.props.fetchPosts({ lastID: this.props.lastID });
+        var postID = parseInt(readPostIdFromUrl());
+        this.props.changeCurrentPost(postID);
+        console.log(postID);
+
+        if (postID === 0) {
+            await this.props.fetchPosts({});
+        } else {
+            await this.props.fetchPosts({ highestID: postID });
+        }
+    };
+
+    loadNewerPosts = async () => {
+        this.isLoadingNewerPosts = true;
+        var data = await this.props.fetchPosts({
+            highestID: this.props.highestID,
+            postsPerRow: Math.floor(this.state.width / this.postWidth),
+        });
+        this.isLoadingNewerPosts = false;
+    };
+
+    loadOlderPosts = async () => {
+        this.isLoadingOlderPosts = true;
+        console.log(parseInt(readPostIdFromUrl()));
+
+        if (this.props.lowestID === undefined) {
+            var data = await this.props.fetchPosts({
+                lowestID: parseInt(readPostIdFromUrl()),
+            });
+        } else {
+            var data = await this.props.fetchPosts({
+                lowestID: this.props.lowestID,
+            });
+        }
+
+        this.hasMoreOld = Object.keys(data.payload.posts).length > 1;
+        this.isLoadingOlderPosts = false;
     };
 
     /**
@@ -270,18 +370,18 @@ class PostsBoard extends Component {
 
         return (
             <div id="content" key="content-1" className="container-fluid px-0">
-                <InfiniteScroll
+                {/* <InfiniteScroll
                     pageStart={0}
-                    loadMore={this.loadPosts}
+                    loadMore={this.loadOlderPosts}
                     hasMore={true}
                     loader={
                         <div className="loader" key={0}>
                             Loading ...
                         </div>
                     }
-                >
-                    {rows.map((row) => row)}
-                </InfiniteScroll>
+                > */}
+                {rows.map((row) => row)}
+                {/* </InfiniteScroll> */}
             </div>
         );
     }
@@ -292,7 +392,8 @@ function mapStateToProps(state) {
         posts: selectPostEntities(state),
         postsIds: selectPostIds(state),
         totalPosts: selectTotalPosts(state),
-        lastID: selectLastID(state),
+        lowestID: selectLowestID(state),
+        highestID: selectHighestID(state),
         previousPostId: state.posts.previous,
         nextPostId: state.posts.next,
         status: state.posts.fetchState,

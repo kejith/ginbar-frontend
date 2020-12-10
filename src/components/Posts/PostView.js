@@ -11,7 +11,10 @@ import CommentSection from "../Comments/CommentSection";
 import TagSection from "../Tags/TagSection";
 
 // Redux related imports
-import { selectors as postSelectors } from "../../redux/slices/postSlice";
+import {
+    selectLowestID,
+    selectors as postSelectors,
+} from "../../redux/slices/postSlice";
 import { selectCommentsByPostId } from "../../redux/slices/commentSlice";
 import { selectTagsByPostId } from "../../redux/slices/tagsSlice";
 import { volumeChanged } from "../../redux/slices/appSlice";
@@ -77,6 +80,8 @@ class PostView extends Component {
         var video = document.getElementById("media-video");
         if (video !== null && video !== undefined)
             video.volume = this.props.volume;
+
+        this.scrollToMyRef();
     }
 
     render() {
@@ -205,7 +210,7 @@ class PostView extends Component {
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        fetchState: state.posts.fetchState,
+        //fetchState: state.posts.fetchState,
         post: postSelectors.selectById(state, ownProps.postID),
         comments: selectCommentsByPostId(state, ownProps),
         tags: selectTagsByPostId(state, ownProps.postID),

@@ -6,12 +6,16 @@ const urlUserApi = "http://kejith.de:8080/api/user/";
 
 const fetchAll = (data) => {
     try {
-        var apiUrl;
-        if (data.lastID === undefined)
-            apiUrl = "http://kejith.de:8080/api/post/";
-        else apiUrl = "http://kejith.de:8080/api/post/?last_id=" + data.lastID;
+        var parameters = "?";
+        for (const prop in data) {
+            parameters = parameters.concat(`${prop}=${data[prop]}&`);
+        }
 
-        var promise = fetch(apiUrl, {
+        var url = urlPostApi.concat(parameters.slice(0, -1));
+
+        console.log(url);
+
+        var promise = fetch(url, {
             credentials: "include",
         })
             .then((response) => response.json())

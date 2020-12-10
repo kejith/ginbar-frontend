@@ -118,7 +118,9 @@ export const selectPostsByIds = createSelector(
     }
 );
 
-export const selectLastID = createSelector(
+export const selectLowestID = createSelector(
     selectPostIds,
     (ids) => ids[ids.length - 1]
 );
+
+export const selectHighestID = createSelector(selectPostIds, (ids) => ids[0]);
