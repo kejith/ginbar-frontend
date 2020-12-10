@@ -125,6 +125,41 @@ export const commentCreated = createAsyncThunk(
     }
 );
 
+export const postCreated = createAsyncThunk(
+    "posts/create",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            var promise;
+            switch (payload.type) {
+                case "upload":
+                    promise = postAPI.uploadPost(payload);
+                    break;
+                case "url":
+                    promise = postAPI.createPostFromUrl(payload);
+                    break;
+
+                default:
+                    break;
+            }
+
+            const response = await promise;
+            const data = await response.json();
+            const normalized = normalize(data, postEntity);
+
+            dispatch(fetchAll({}));
+
+            return normalized;
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
 export const postTagCreated = createAsyncThunk(
     "tags/create",
     async (payload, { dispatch, rejectWithValue }) => {

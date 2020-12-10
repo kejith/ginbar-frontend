@@ -122,6 +122,40 @@ const votePostTag = (data) => {
     }
 };
 
+const uploadPost = (data) => {
+    const formData = new FormData();
+    formData.append("file", data.file);
+
+    let requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
+
+    try {
+        return fetch(urlPostApi.concat("upload"), requestOptions);
+    } catch (err) {
+        throw err;
+    }
+};
+
+const createPostFromUrl = (data) => {
+    const formData = new FormData();
+    formData.append("URL", data.url);
+
+    let requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
+
+    try {
+        return fetch(urlPostApi.concat("create"), requestOptions);
+    } catch (err) {
+        throw err;
+    }
+};
+
 const createTag = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -213,6 +247,8 @@ const postAPI = {
     fetchAll,
     fetchById,
     votePost,
+    createPostFromUrl,
+    uploadPost,
 };
 
 export const voteAPI = {

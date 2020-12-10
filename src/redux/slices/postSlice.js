@@ -9,6 +9,7 @@ import {
     fetchById,
     commentCreated,
     postVoted,
+    postCreated,
 } from "../actions/actions";
 
 export function objectFlip(obj) {
@@ -61,6 +62,22 @@ export const postSlice = createSlice({
 
             var posts = Object.values(action.payload.entities.posts);
             postsAdapter.upsertMany(state, posts);
+        },
+        [postCreated.fulfilled]: (state, action) => {
+            state.fetchState = "fulfilled";
+
+            // no post found
+            if (action.payload.entities.posts === undefined) return;
+
+            var posts = Object.values(action.payload.entities.posts);
+            postsAdapter.upsertMany(state, posts);
+
+            if (
+                action.payload.result !== undefined &&
+                action.payload.result !== 0
+            ) {
+                state.current = action.payload.result;
+            }
         },
         [postVoted.fulfilled]: (state, action) => {
             const { contentID, voteState } = action.payload;

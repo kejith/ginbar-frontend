@@ -13,7 +13,6 @@ import {
 } from "../../redux/slices/postSlice";
 
 import { fetchAll } from "../../redux/actions/actions";
-import { TransitionGroup } from "react-transition-group";
 
 class PostsBoard extends Component {
     postWidth = 150;
@@ -175,7 +174,7 @@ class PostsBoard extends Component {
 
     loadNewerPosts = async () => {
         this.isLoadingNewerPosts = true;
-        var data = await this.props.fetchPosts({
+        await this.props.fetchPosts({
             highestID: this.props.highestID,
             postsPerRow: Math.floor(this.state.width / this.postWidth),
         });
@@ -186,17 +185,20 @@ class PostsBoard extends Component {
         this.isLoadingOlderPosts = true;
         console.log(parseInt(readPostIdFromUrl()));
 
+        var data;
         if (this.props.lowestID === undefined) {
-            var data = await this.props.fetchPosts({
+            data = await this.props.fetchPosts({
                 lowestID: parseInt(readPostIdFromUrl()),
             });
         } else {
-            var data = await this.props.fetchPosts({
+            data = await this.props.fetchPosts({
                 lowestID: this.props.lowestID,
             });
         }
 
-        this.hasMoreOld = Object.keys(data.payload.posts).length > 1;
+        if (data.payload !== undefined)
+            this.hasMoreOld = Object.keys(data.payload.posts).length > 1;
+
         this.isLoadingOlderPosts = false;
     };
 
@@ -324,7 +326,7 @@ class PostsBoard extends Component {
     };
 
     render() {
-        const { currentPostShown, postsIds } = this.props;
+        const { postsIds } = this.props;
         const elementsPerRow = Math.floor(this.state.width / this.postWidth);
 
         // fallback if posts are not loaded

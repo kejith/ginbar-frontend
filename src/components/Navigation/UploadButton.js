@@ -11,7 +11,7 @@ import {
     FormText,
 } from "react-bootstrap";
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
-import { fetchAll } from "../../redux/actions/actions";
+import { fetchAll, postCreated } from "../../redux/actions/actions";
 import { connect } from "react-redux";
 
 class UploadButton extends Component {
@@ -43,61 +43,37 @@ class UploadButton extends Component {
         }
     };
 
+    resetState() {
+        this.setState({
+            show: false,
+            file: "",
+            url: "",
+        });
+    }
+
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        // let values = { url: this.state.url };
+        const res = await this.props.createPost({
+            type: "url",
+            url: this.state.url,
+        });
 
-        const data = new FormData();
-        data.append("URL", this.state.url);
-
-        let requestOptions = {
-            method: "POST",
-            body: data,
-            credentials: "include",
-        };
-
-        try {
-            var response = await fetch(
-                "http://kejith.de:8080/api/post/create",
-                requestOptions
-            );
-
-            if (response.status === 200 || response.status === 204) {
-                this.setState({ show: false, file: "", url: "" });
-                this.props.loadNew({});
-            } else {
-                console.log(response.status);
-            }
-        } catch (err) {
-            console.log(err);
+        if (res.type === "posts/create/fulfilled") {
+            this.resetState();
         }
     };
 
     handleUploadSubmit = async (e) => {
         e.preventDefault();
-        const data = new FormData();
         var fileData = document.querySelector('input[type="file"]').files[0];
-        data.append("file", fileData);
+        const res = await this.props.createPost({
+            type: "upload",
+            file: fileData,
+        });
 
-        let requestOptions = {
-            method: "POST",
-            body: data,
-            credentials: "include",
-        };
-
-        try {
-            var response = await fetch(
-                "http://kejith.de:8080/api/post/upload",
-                requestOptions
-            );
-
-            if (response.status === 200 || response.status === 204) {
-                this.setState({ show: false, file: "", url: "" });
-                this.props.loadNew({});
-            }
-        } catch (err) {
-            console.log(err);
+        if (res.type === "posts/create/fulfilled") {
+            this.resetState();
         }
     };
 
@@ -178,5 +154,6 @@ class UploadButton extends Component {
 
 const mapDispatchToProps = {
     loadNew: fetchAll,
+    createPost: postCreated,
 };
 export default connect(null, mapDispatchToProps)(UploadButton);
