@@ -124,3 +124,36 @@ export const selectLowestID = createSelector(
 );
 
 export const selectHighestID = createSelector(selectPostIds, (ids) => ids[0]);
+
+export const selectCurrentID = createSelector(
+    (state) => state.posts,
+    (posts) => posts.current
+);
+
+export const selectNextID = createSelector(
+    selectors.selectIds,
+    selectCurrentID,
+    (postsIds, currentPostShown) => {
+        var currentIndex = postsIds.indexOf(currentPostShown);
+        if (currentIndex !== undefined && currentIndex < postsIds.length - 1) {
+            var nextPostId = postsIds[currentIndex + 1];
+            return nextPostId;
+        } else {
+            return 0;
+        }
+    }
+);
+
+export const selectPreviousID = createSelector(
+    selectors.selectIds,
+    selectCurrentID,
+    (postsIds, currentPostShown) => {
+        var currentIndex = postsIds.indexOf(currentPostShown);
+        if (currentIndex !== undefined && currentIndex > 0) {
+            var previousPostId = postsIds[currentIndex - 1];
+            return previousPostId;
+        } else {
+            return 0;
+        }
+    }
+);

@@ -1,9 +1,7 @@
 import React, { Component } from "react";
 import PostsBoardRow from "./PostsBoardRow";
-import PostView from "./PostView";
 import { connect } from "react-redux";
 import { readPostIdFromUrl, getDimensionsOfElement } from "../../utils";
-import InfiniteScroll from "react-infinite-scroller";
 
 import {
     postSlice,
@@ -40,6 +38,8 @@ class PostsBoard extends Component {
         super(props);
 
         this.lastKeyPressed = 0;
+
+        this.ref = React.createRef();
 
         this.state = {
             width: 0,
@@ -98,7 +98,7 @@ class PostsBoard extends Component {
         this.previousScrollTop = scrollTop;
 
         if (
-            offset + 150 >= height &&
+            offset >= height &&
             !this.isLoadingOlderPosts &&
             this.hasMoreOld &&
             this.isScrollingDown
@@ -127,12 +127,17 @@ class PostsBoard extends Component {
         )
             this.loadOlderPosts();
 
-        window.scrollTo(
-            0,
-            window.document.body.offsetHeight -
-                this.previousTotalHeight +
-                this.previousOffset
-        );
+        if (!this.isScrollingDown) {
+            window.scrollTo(
+                0,
+                window.document.body.offsetHeight -
+                    this.previousTotalHeight +
+                    this.previousOffset
+            );
+        }
+
+        // if (this.ref.current)
+        //     window.scrollTo(0, this.ref.current.offsetTop - 50);
     }
 
     shouldComponentUpdate(nextProps, nextState) {
@@ -140,9 +145,7 @@ class PostsBoard extends Component {
         if (this.props.totalPosts !== nextProps.totalPosts) return true;
         // when the post that is currently viewed is changed rerender
         // TODO: potentialy performance save here
-        if (this.props.currentPostShown !== nextProps.currentPostShown) {
-            return true;
-        }
+
         // When the amount of posts per row changes due to resizing the window
         // we only want to render it once at the breakpoint and not every
         // resizing event
@@ -336,36 +339,39 @@ class PostsBoard extends Component {
             // slice of the posts for the row
             var rowSlice = postsIds.slice(i, i + elementsPerRow);
             // create next row
+
             rows.push(
                 <PostsBoardRow
                     key={"postrow-" + i}
                     postIds={rowSlice}
                     postsPerRow={elementsPerRow}
                     onShowPost={this.handleOnShowPost}
+                    onShowNextPost={this.handleShowNextPost}
+                    onShowPreviousPost={this.handleShowPreviousPost}
                 />
             );
 
             // if the current post id is between [i, i+elementsPerRow[ than
             // the current post is in this row
-            var res = rowSlice.indexOf(currentPostShown);
-            if (res !== -1) {
-                var currentPost = this.currentPost();
-                var nextPostId = this.getNextPostId();
-                var previousPostId = this.getPreviousPostId();
-                var postView = (
-                    <PostView
-                        key={"post-view-" + currentPost.id}
-                        postID={currentPost.id}
-                        nextPostID={nextPostId !== 0 ? nextPostId : -1}
-                        previousPostID={
-                            previousPostId !== 0 ? previousPostId : -1
-                        }
-                        onShowNextPost={this.handleShowNextPost}
-                        onShowPreviousPost={this.handleShowPreviousPost}
-                    />
-                );
-                rows.push(postView);
-            }
+            // var res = rowSlice.indexOf(currentPostShown);
+            // if (res !== -1) {
+            //     var currentPost = this.currentPost();
+            //     var nextPostId = this.getNextPostId();
+            //     var previousPostId = this.getPreviousPostId();
+            //     var postView = (
+            //         <PostView
+            //             key={"post-view-" + currentPost.id}
+            //             postID={currentPost.id}
+            //             nextPostID={nextPostId !== 0 ? nextPostId : -1}
+            //             previousPostID={
+            //                 previousPostId !== 0 ? previousPostId : -1
+            //             }
+            //             onShowNextPost={this.handleShowNextPost}
+            //             onShowPreviousPost={this.handleShowPreviousPost}
+            //         />
+            //     );
+            //     rows.push(postView);
+            // }
         }
 
         return (
