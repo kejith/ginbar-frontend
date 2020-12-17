@@ -65,23 +65,17 @@ export const postSlice = createSlice({
         },
         [postCreated.fulfilled]: (state, action) => {
             state.fetchState = "fulfilled";
-
-            if (action.payload.status === "possibleDuplicatesFound") {
-                console.log(action.payload);
-                action.payload.entities = action.payload.data.entities;
-            }
+            var data = action.payload.data;
 
             // no post found
-            if (action.payload.entities.posts === undefined) return;
+            if (data.entities.posts === undefined) return;
 
-            var posts = Object.values(action.payload.entities.posts);
+            var posts = Object.values(data.entities.posts);
             postsAdapter.upsertMany(state, posts);
 
-            if (
-                action.payload.result !== undefined &&
-                action.payload.result !== 0
-            ) {
-                state.current = action.payload.result;
+            // set the current post to the created post
+            if (data.result !== undefined && data.result !== 0) {
+                state.current = data.result;
             }
         },
         [postVoted.fulfilled]: (state, action) => {

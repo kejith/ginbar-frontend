@@ -130,39 +130,40 @@ export const postCreated = createAsyncThunk(
     async (payload, { dispatch, rejectWithValue }) => {
         try {
             var promise;
-            switch (payload.type) {
-                case "upload":
-                    promise = postAPI.uploadPost(payload);
-                    break;
-                case "url":
-                    promise = postAPI.createPostFromUrl(payload);
-                    break;
 
-                default:
-                    break;
-            }
+            try {
+                switch (payload.type) {
+                    case "upload":
+                        promise = postAPI.uploadPost(payload);
+                        break;
+                    case "url":
+                        promise = postAPI.createPostFromUrl(payload);
+                        break;
 
-            const response = await promise;
-            const data = await response.json();
+                    default:
+                        break;
+                }
 
-            if (
-                data.status !== undefined &&
-                data.status === "possibleDuplicatesFound"
-            ) {
+                const response = await promise;
+                const data = await response.json();
+
+                if (
+                    data === undefined ||
+                    data === null ||
+                    data.status !== undefined
+                )
+                    return;
+
                 if (data.posts !== undefined) {
                     const normalized = normalize(data.posts, [postEntity]);
                     return {
                         data: normalized,
-                        status: "possibleDuplicatesFound",
+                        status: data.status,
                     };
                 }
+            } catch (err) {
+                console.log(err);
             }
-
-            const normalized = normalize(data, postEntity);
-
-            dispatch(fetchAll({}));
-
-            return normalized;
         } catch (err) {
             console.log(err);
             if (!err.response) {
