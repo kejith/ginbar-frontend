@@ -66,6 +66,11 @@ export const postSlice = createSlice({
         [postCreated.fulfilled]: (state, action) => {
             state.fetchState = "fulfilled";
 
+            if (action.payload.status === "possibleDuplicatesFound") {
+                console.log(action.payload);
+                action.payload.entities = action.payload.data.entities;
+            }
+
             // no post found
             if (action.payload.entities.posts === undefined) return;
 

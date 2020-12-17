@@ -176,7 +176,7 @@ class PostView extends Component {
                                 vor {stringHowLongAgo}
                             </span>
                             <span className="time"> von </span>
-                            <Link className="user" href={"/user/" + post.user}>
+                            <Link className="user" to={"/user/" + post.user}>
                                 {post.user}
                             </Link>
                             {post.url !== "" ? (

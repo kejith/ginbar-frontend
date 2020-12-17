@@ -144,6 +144,20 @@ export const postCreated = createAsyncThunk(
 
             const response = await promise;
             const data = await response.json();
+
+            if (
+                data.status !== undefined &&
+                data.status === "possibleDuplicatesFound"
+            ) {
+                if (data.posts !== undefined) {
+                    const normalized = normalize(data.posts, [postEntity]);
+                    return {
+                        data: normalized,
+                        status: "possibleDuplicatesFound",
+                    };
+                }
+            }
+
             const normalized = normalize(data, postEntity);
 
             dispatch(fetchAll({}));

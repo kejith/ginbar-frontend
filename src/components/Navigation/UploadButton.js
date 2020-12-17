@@ -13,6 +13,7 @@ import {
 import ModalHeader from "react-bootstrap/esm/ModalHeader";
 import { fetchAll, postCreated } from "../../redux/actions/actions";
 import { connect } from "react-redux";
+import PostThumbnail from "../Posts/PostThumbnail";
 
 class UploadButton extends Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class UploadButton extends Component {
             show: false,
             url: "",
             file: "",
+            reposts: [],
         };
     }
 
@@ -59,8 +61,14 @@ class UploadButton extends Component {
             url: this.state.url,
         });
 
-        if (res.type === "posts/create/fulfilled") {
-            this.resetState();
+        if (res.payload.status === "possibleDuplicatesFound") {
+            this.setState({
+                reposts: Object.values(res.payload.data.entities.posts),
+            });
+        } else {
+            if (res.type === "posts/create/fulfilled") {
+                this.resetState();
+            }
         }
     };
 
@@ -145,6 +153,19 @@ class UploadButton extends Component {
                                 <i className="fa fa-upload"></i>
                             </Button>
                         </Form>
+                        <div className="reposts-found">
+                            {this.state.reposts.length > 0 ? (
+                                <div>Possible Reposts Found:</div>
+                            ) : (
+                                ""
+                            )}
+                            {this.state.reposts.map((post) => (
+                                <PostThumbnail
+                                    key={"postthumb-" + post.id}
+                                    postId={post.id}
+                                />
+                            ))}
+                        </div>
                     </ModalBody>
                 </Modal>
             </div>
