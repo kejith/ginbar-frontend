@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { selectors } from "../../redux/slices/postSlice";
 
-const thumbnailUrl = "http://kejith.de:8080/images/thumbnails/";
+const thumbnailUrl = "https://kejith.de/images/thumbnails/";
 
 class PostThumbnail extends Component {
     previousCurrent = 0;

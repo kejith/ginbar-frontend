@@ -1,8 +1,8 @@
-const urlPostApi = "http://kejith.de:8080/api/post/";
-const urlCommentApi = "http://kejith.de:8080/api/comment/";
-const urlVoteApi = "http://kejith.de:8080/api/vote/";
-const urlTagApi = "http://kejith.de:8080/api/tag/";
-const urlUserApi = "http://kejith.de:8080/api/user/";
+const urlPostApi = "https://kejith.de/api/post/";
+const urlCommentApi = "https://kejith.de/api/comment/";
+const urlVoteApi = "https://kejith.de/api/vote/";
+const urlTagApi = "https://kejith.de/api/tag/";
+const urlUserApi = "https://kejith.de/api/user/";
 
 const fetchAll = (data) => {
     try {
@@ -233,7 +233,7 @@ const logout = () => {
 
 const checkMe = () => {
     try {
-        var promise = fetch("http://kejith.de:8080/api/check/me", {
+        var promise = fetch("https://kejith.de/api/check/me", {
             credentials: "include",
         });
 

@@ -150,9 +150,9 @@ export const postCreated = createAsyncThunk(
                 if (
                     data === undefined ||
                     data === null ||
-                    data.status !== undefined
+                    data.status === undefined
                 )
-                    return;
+                    return data;
 
                 if (data.posts !== undefined) {
                     const normalized = normalize(data.posts, [postEntity]);

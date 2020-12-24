@@ -61,6 +61,8 @@ class UploadButton extends Component {
             url: this.state.url,
         });
 
+        console.log(res);
+
         if (res.payload.status === "possibleDuplicatesFound") {
             this.setState({
                 reposts: Object.values(res.payload.data.entities.posts),
