@@ -156,6 +156,23 @@ const createPostFromUrl = (data) => {
     }
 };
 
+const deletePost = (data) => {
+    const formData = new FormData();
+    formData.append("id", data.id);
+
+    let requestOptions = {
+        method: "POST",
+        body: formData,
+        credentials: "include",
+    };
+
+    try {
+        return fetch(urlPostApi.concat("delete"), requestOptions);
+    } catch (err) {
+        throw err;
+    }
+};
+
 const createTag = (data) => {
     const formData = new FormData();
     formData.append("name", data.name);
@@ -249,6 +266,7 @@ const postAPI = {
     votePost,
     createPostFromUrl,
     uploadPost,
+    deletePost,
 };
 
 export const voteAPI = {

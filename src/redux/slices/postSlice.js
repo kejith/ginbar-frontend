@@ -10,6 +10,7 @@ import {
     commentCreated,
     postVoted,
     postCreated,
+    postDeleted,
 } from "../actions/actions";
 
 export function objectFlip(obj) {
@@ -37,6 +38,7 @@ export const postSlice = createSlice({
             var currentPostId = action.payload;
             state.current = currentPostId;
         },
+        deletePost: postsAdapter.removeOne,
     },
     extraReducers: {
         [fetchAll.pending]: (state, action) => {
@@ -104,6 +106,9 @@ export const postSlice = createSlice({
                     state.entities[postID].comments = [result];
                 }
             }
+        },
+        [postDeleted.fulfilled]: (state, action) => {
+            postsAdapter.removeOne(state, action.payload.id);
         },
     },
 });

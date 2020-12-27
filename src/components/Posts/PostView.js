@@ -18,6 +18,7 @@ import { volumeChanged } from "../../redux/slices/appSlice";
 import { connect } from "react-redux";
 import {
     fetchById as fetchPostById,
+    postDeleted,
     postVoted,
 } from "../../redux/actions/actions";
 
@@ -56,6 +57,10 @@ class PostView extends Component {
     scrollToMyRef = () => {
         if (this.ref.current)
             window.scrollTo(0, this.ref.current.offsetTop - 50);
+    };
+
+    handleDeletePost = () => {
+        this.props.deletePost({ id: this.props.post.id });
     };
 
     handleCommentCreated = (createdComment) => {
@@ -179,6 +184,13 @@ class PostView extends Component {
                             <Link className="user" to={"/user/" + post.user}>
                                 {post.user}
                             </Link>
+                            <span className="spacer">&nbsp;-&nbsp;</span>
+                            <span
+                                className="delete"
+                                onClick={() => this.handleDeletePost()}
+                            >
+                                <i class="fa fa-trash"></i>
+                            </span>
                             {post.url !== "" ? (
                                 <span className="post-source">
                                     <i className="fa fa-link"></i>{" "}
@@ -219,5 +231,6 @@ const mapDispatchToProps = {
     fetchPostById: fetchPostById,
     votePost: postVoted,
     changeVolume: volumeChanged,
+    deletePost: postDeleted,
 };
 export default connect(mapStateToProps, mapDispatchToProps)(PostView);

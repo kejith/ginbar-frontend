@@ -1,6 +1,7 @@
 import { schema } from "normalizr";
 import { normalize } from "normalizr";
 import postAPI, { commentAPI, tagAPI, userAPI } from "../slices/postsAPI";
+import { postReducer } from "../slices/postSlice";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 const commentEntity = new schema.Entity("comments");
@@ -164,6 +165,25 @@ export const postCreated = createAsyncThunk(
             } catch (err) {
                 console.log(err);
             }
+        } catch (err) {
+            console.log(err);
+            if (!err.response) {
+                throw err;
+            }
+
+            return rejectWithValue(err.response);
+        }
+    }
+);
+
+export const postDeleted = createAsyncThunk(
+    "posts/delete",
+    async (payload, { dispatch, rejectWithValue }) => {
+        try {
+            const promise = postAPI.deletePost(payload);
+            const data = await promise;
+
+            return payload;
         } catch (err) {
             console.log(err);
             if (!err.response) {
