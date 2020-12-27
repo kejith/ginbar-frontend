@@ -184,13 +184,7 @@ class PostView extends Component {
                             <Link className="user" to={"/user/" + post.user}>
                                 {post.user}
                             </Link>
-                            <span className="spacer">&nbsp;-&nbsp;</span>
-                            <span
-                                className="delete"
-                                onClick={() => this.handleDeletePost()}
-                            >
-                                <i class="fa fa-trash"></i>
-                            </span>
+
                             {post.url !== "" ? (
                                 <span className="post-source">
                                     <i className="fa fa-link"></i>{" "}
@@ -201,6 +195,12 @@ class PostView extends Component {
                             ) : (
                                 ""
                             )}
+                            <span
+                                className="delete"
+                                onClick={() => this.handleDeletePost()}
+                            >
+                                <i class="fa fa-trash"></i>
+                            </span>
                             <TagSection postID={post.id} />
                         </div>
                     </div>

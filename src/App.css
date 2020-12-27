@@ -191,6 +191,9 @@ video::-webkit-media-controls-panel {
 
   .post-footer .post-details a.user { color: #f2f5f4 ;}
   .post-footer .post-source { padding-left: 16px;} 
+  
+  /* delete */
+  .post-footer .delete { padding-left: 16px; }
   .post-footer .delete:hover { color: red; cursor: pointer;}
 
 
