@@ -82,8 +82,16 @@ class UploadButton extends Component {
             file: fileData,
         });
 
-        if (res.type === "posts/create/fulfilled") {
-            this.resetState();
+        console.log(res);
+
+        if (res.payload.status === "possibleDuplicatesFound") {
+            this.setState({
+                reposts: Object.values(res.payload.data.entities.posts),
+            });
+        } else {
+            if (res.type === "posts/create/fulfilled") {
+                this.resetState();
+            }
         }
     };
 
