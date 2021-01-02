@@ -123,8 +123,14 @@ class UploadButton extends Component {
                                     onChange={this.handleChange}
                                 />
                                 <FormText>
-                                    Here you can create a new post by specifying
-                                    a URL.
+                                    <p className="primary-info">
+                                        Here you can create a new post by
+                                        specifying a URL.
+                                    </p>
+                                    <p className="secondary-info">
+                                        Allowed file formats are JPEG, PNG and
+                                        mp4.
+                                    </p>
                                 </FormText>
                             </FormGroup>
                             <Button
