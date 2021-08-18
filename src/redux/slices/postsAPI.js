@@ -1,4 +1,5 @@
 const urlPostApi = "https://kejith.de/api/post/";
+const urlSearchApi = "https://kejith.de/api/post/search/"
 const urlCommentApi = "https://kejith.de/api/comment/";
 const urlVoteApi = "https://kejith.de/api/vote/";
 const urlTagApi = "https://kejith.de/api/tag/";
@@ -28,6 +29,19 @@ const fetchAll = (data) => {
         throw err;
     }
 };
+
+const searchPosts = (searchString) => {
+    try {
+        var promise = fetch(urlSearchApi + searchString, {credentials: "include"})
+        .then((response) => response.json())
+        .then((data) => {
+            return data;
+        });
+        return promise;
+    } catch (err) {
+        throw err;
+    }
+}
 
 const fetchById = (postID) => {
     try {
@@ -267,6 +281,7 @@ const postAPI = {
     createPostFromUrl,
     uploadPost,
     deletePost,
+    searchPosts
 };
 
 export const voteAPI = {

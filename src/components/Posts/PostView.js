@@ -199,7 +199,7 @@ class PostView extends Component {
                                 className="delete"
                                 onClick={() => this.handleDeletePost()}
                             >
-                                <i class="fa fa-trash"></i>
+                                <i className="fa fa-trash"></i>
                             </span>
                             <TagSection postID={post.id} />
                         </div>

@@ -6,10 +6,24 @@ import { SignUp } from "../User/SignUp";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import withAuthentication from "../User/withAuthentication";
-import { fetchAll } from "../../redux/actions/actions";
+import { fetchAll, searchSent } from "../../redux/actions/actions";
+import { Button, Form } from "react-bootstrap";
 
 export class NavigationBar extends Component {
-    state = {};
+    state = {search: ""};
+
+    handleSearch = async (e) => {
+        e.preventDefault();
+        
+        var promise = await this.props.search(this.state.search);
+        console.log(promise);
+        
+    };
+
+    handleChange = (e) => {
+        this.setState({ search: e.target.value });
+    };
+
     render() {
         const { currentUser, isAuthenticated } = this.props;
 
@@ -54,8 +68,24 @@ export class NavigationBar extends Component {
                             </a>
                         </li>
                     </ul>
-                </div>
 
+                </div>
+                <Form onSubmit={this.handleSearch} method="post" className="navbar-form navbar-right" role="search">
+                    <div className="input-group">
+                    <input 
+                        name="s" 
+                        type="text" 
+                        className="form-control" 
+                        placeholder="Search this site" 
+                        onChange={this.handleChange}
+                    />
+                    <span className="input-group-btn">
+                        <Button type="submit" className="btn btn-default">
+                            <i className="fa fa-search" style={{"color": "white"}}></i>
+                        </Button>
+                    </span>
+                    </div>
+                </Form>
                 {isAuthenticated ? (
                     <div className="text-right navbar-buttons-right">
                         <UploadButton />
@@ -78,6 +108,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const dispatchToProps = {
     loadNew: fetchAll,
+    search: searchSent
 };
 
 export default connect(

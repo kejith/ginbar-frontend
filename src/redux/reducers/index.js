@@ -7,6 +7,11 @@ const initialState = {
 
 function reducer(state = initialState, action) {
     switch (action.type) {
+        case "RESET_APP":
+            return {
+                posts: [],
+                rerender: false
+            };
         case actions.POSTS_ADDED:
             return {
                 posts: action.payload.posts,

@@ -11,6 +11,7 @@ import {
     postVoted,
     postCreated,
     postDeleted,
+    searchSent,
 } from "../actions/actions";
 
 export function objectFlip(obj) {
@@ -110,6 +111,18 @@ export const postSlice = createSlice({
         [postDeleted.fulfilled]: (state, action) => {
             postsAdapter.removeOne(state, action.payload.id);
         },
+        [searchSent.fulfilled]: (state, action) => {
+            if(action.payload.posts) {
+                postsAdapter.setAll(state, action.payload.posts);
+            } else {
+                state = postsAdapter.getInitialState({
+                    fetchState: "idle",
+                    current: 0,
+                    next: 0,
+                    previous: 0,
+                });
+            }
+        }
     },
 });
 
