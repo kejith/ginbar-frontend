@@ -178,9 +178,9 @@ class PostView extends Component {
                         </div>
                         <div className="post-details d-inline-block">
                             <span className="time" href="">
-                                vor {stringHowLongAgo}
+                                {stringHowLongAgo}
                             </span>
-                            <span className="time"> von </span>
+                            <span className="time"> by </span>
                             <Link className="user" to={"/user/" + post.user}>
                                 {post.user}
                             </Link>

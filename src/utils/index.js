@@ -44,15 +44,15 @@ export function howLongAgoHumanReadable(earlierDate) {
     // we will use the bitwise or "|" operator to floor numbers
     var diff = now - earlier;
     if (diff < MINUTE) {
-        return "einem Moment";
+        return "a Moment ago";
     }
     if (diff < HOUR) {
         var minuteCount = (diff / MINUTE) | 0;
         if (minuteCount > 1) {
-            return minuteCount + " Minuten";
+            return minuteCount + " Minutes ago";
         }
 
-        return "einer Minute";
+        return "a Minute ago";
     }
     if (diff < DAY) {
         var hoursCount = (diff / HOUR) | 0;
@@ -60,7 +60,7 @@ export function howLongAgoHumanReadable(earlierDate) {
             return hoursCount + " Stunden";
         }
 
-        return "einer Stunde";
+        return "an Hour ago";
     }
     if (diff < WEEK) {
         var dayCount = (diff / DAY) | 0;
@@ -68,7 +68,7 @@ export function howLongAgoHumanReadable(earlierDate) {
             return dayCount + " Tagen";
         }
 
-        return "einem Tag";
+        return "a Day ago";
     }
 
     var oneMonthAfterEarlierDate = new Date(
@@ -89,27 +89,27 @@ export function howLongAgoHumanReadable(earlierDate) {
     if (diff < ONE_MONTH) {
         var weekCount = (diff / WEEK) | 0;
         if (weekCount > 1) {
-            return weekCount + " Wochen";
+            return weekCount + " Weeks ago";
         }
 
-        return "einer Woche";
+        return "a Week ago";
     }
 
     if (diff < ONE_YEAR) {
         var monthCount = nowDate.getMonth() - earlierDate.getMonth();
         if (monthCount > 1) {
-            return monthCount + " Monaten";
+            return monthCount + " Month ago";
         }
 
-        return "einem Monat";
+        return "a Month ago";
     }
 
     var yearCount = nowDate.getFullYear() - earlierDate.getFullYear();
     if (yearCount > 1) {
-        return yearCount + " Jahren";
+        return yearCount + " Years ago";
     }
 
-    return "einem Jahr";
+    return "a Year ago";
 }
 
 export const ConditionalWrapper = ({ condition, wrapper, children }) =>

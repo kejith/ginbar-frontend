@@ -96,7 +96,7 @@ class TagSection extends Component {
                                 })
                             }
                         >
-                            Tag hinzufügen
+                            Add Tag
                         </span>
                     ) : (
                         ""

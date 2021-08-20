@@ -43,13 +43,13 @@ export class CreateCommentForm extends Component {
                         rows={1}
                         name="content"
                         className={comment !== "" ? "has-text" : ""}
-                        placeholder="Kommentar schreiben..."
+                        placeholder="Write Comment..."
                         value={comment}
                         onChange={this.handleChange}
                     />
                 </FormGroup>
                 <Button variant="primary" type="submit" className="btn-sm">
-                    <span className="btn-text">Senden</span>
+                    <span className="btn-text">Send</span>
                 </Button>
             </Form>
         );
