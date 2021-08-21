@@ -1,5 +1,6 @@
 # TODOs
 - If the search is empty it should show a Page with Status Code 404
+- Look into FlatView for virtualisation
 
 # Getting Started with Create React App
 
