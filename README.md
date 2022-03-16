@@ -10,7 +10,7 @@
   <p align="center">
     <br />
 
-    <a href="https://kejith.de/">View Demo</a>
+    [Live Demo](https://kejith.de)
   </p>
 </div>
 
