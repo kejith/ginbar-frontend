@@ -1,3 +1,34 @@
+<!-- PROJECT LOGO -->
+<br />
+<div align="center">
+  <a href="https://kejith.de/">
+    <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
+  </a>
+
+  <h3 align="center">Ginbar a custom made Imageboard with React</h3>
+
+  <p align="center">
+    An awesome README template to jumpstart your projects!
+    <br />
+
+    <a href="https://kejith.de/">View Demo</a>
+  </p>
+</div>
+
+<!-- ABOUT THE PROJECT -->
+## About The Project
+
+[![Product Name Screen Shot][https://github.com/kejith/ginbar-frontend/blob/main/ginbar-screenshot.png?raw=true]](https://example.com)
+
+This is a custom made image board. The purpose of this project was to combine React with a custom made API in GO.
+
+Here's why:
+* Extremly Fast
+* Scalable
+* Learning Purposes 
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 # TODOs
 - If the search is empty it should show a Page with Status Code 404
 - Look into FlatView for virtualisation
