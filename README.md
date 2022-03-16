@@ -21,8 +21,8 @@ Here's why:
 [Live Demo](https://kejith.de)
 
 Test Account:
-Username: test
-Password: test
+- Username: test
+- Password: test
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
