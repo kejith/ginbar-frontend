@@ -16,8 +16,7 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-
-[![Product Name Screen Shot][ginbar-screenshot.png]](https://kejith.de)
+[![Screenshot](https://github.com/kejith/ginbar-frontend/blob/main/ginbar-screenshot.png?raw=true)](https://kejith.de/)
 
 This is a custom made image board. The purpose of this project was to combine React with a custom made API in GO.
 
