@@ -22,10 +22,11 @@ Here's why:
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
-# TODOs
+## TODOs
 - If the search is empty it should show a Page with Status Code 404
 - Look into FlatView for virtualisation
-- 
+- Caching
+
 ## Available Scripts
 
 In the project directory, you can run:
