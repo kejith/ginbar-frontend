@@ -4,7 +4,7 @@
     <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
-  <h3 align="center">Ginbar a custom made Imageboard with React</h3>
+  <h3 align="center">Ginbar a custom made Imageboard with React & Redux</h3>
 </div>
 
 <!-- ABOUT THE PROJECT -->
