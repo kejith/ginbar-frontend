@@ -10,10 +10,10 @@
   <p align="center">
     <br />
 
-    [Live Demo](https://kejith.de)
+    
   </p>
 </div>
-
+[Live Demo](https://kejith.de)
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 [![Screenshot](https://github.com/kejith/ginbar-frontend/blob/main/ginbar-screenshot.png?raw=true)](https://kejith.de/)
