@@ -8,7 +8,6 @@
   <h3 align="center">Ginbar a custom made Imageboard with React</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
     <br />
 
     <a href="https://kejith.de/">View Demo</a>
