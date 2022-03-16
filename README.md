@@ -1,19 +1,12 @@
 <!-- PROJECT LOGO -->
-<br />
 <div align="center">
   <a href="https://kejith.de/">
     <img src="https://github.com/othneildrew/Best-README-Template/raw/master/images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
   <h3 align="center">Ginbar a custom made Imageboard with React</h3>
-
-  <p align="center">
-    <br />
-
-    
-  </p>
 </div>
-[Live Demo](https://kejith.de)
+
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 [![Screenshot](https://github.com/kejith/ginbar-frontend/blob/main/ginbar-screenshot.png?raw=true)](https://kejith.de/)
