@@ -1,9 +1,9 @@
-const urlPostApi = "https://kejith.de/api/post/";
-const urlSearchApi = "https://kejith.de/api/post/search/"
-const urlCommentApi = "https://kejith.de/api/comment/";
-const urlVoteApi = "https://kejith.de/api/vote/";
-const urlTagApi = "https://kejith.de/api/tag/";
-const urlUserApi = "https://kejith.de/api/user/";
+const urlPostApi = "https://ginbar.kejith.de/api/post/";
+const urlSearchApi = "https://ginbar.kejith.de/api/post/search/"
+const urlCommentApi = "https://ginbar.kejith.de/api/comment/";
+const urlVoteApi = "https://ginbar.kejith.de/api/vote/";
+const urlTagApi = "https://ginbar.kejith.de/api/tag/";
+const urlUserApi = "https://ginbar.kejith.de/api/user/";
 
 const fetchAll = (data) => {
     try {
@@ -264,7 +264,7 @@ const logout = () => {
 
 const checkMe = () => {
     try {
-        var promise = fetch("https://kejith.de/api/check/me", {
+        var promise = fetch("https://ginbar.kejith.de/api/check/me", {
             credentials: "include",
         });
 

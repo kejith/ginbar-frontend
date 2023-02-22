@@ -69,23 +69,25 @@ export class NavigationBar extends Component {
                         </li>
                     </ul>
 
+                    {/* <Form onSubmit={this.handleSearch} method="post" className="navbar-form navbar-right" role="search">
+                        <div className="input-group">
+                        <input 
+                            name="s" 
+                            type="text" 
+                            className="form-control" 
+                            placeholder="Search this site" 
+                            onChange={this.handleChange}
+                        />
+                        <span className="input-group-btn">
+                            <Button type="submit" className="btn btn-default">
+                                <i className="fa fa-search" style={{"color": "white"}}></i>
+                            </Button>
+                        </span>
+                        </div>
+                    </Form> */}
+
                 </div>
-                <Form onSubmit={this.handleSearch} method="post" className="navbar-form navbar-right" role="search">
-                    <div className="input-group">
-                    <input 
-                        name="s" 
-                        type="text" 
-                        className="form-control" 
-                        placeholder="Search this site" 
-                        onChange={this.handleChange}
-                    />
-                    <span className="input-group-btn">
-                        <Button type="submit" className="btn btn-default">
-                            <i className="fa fa-search" style={{"color": "white"}}></i>
-                        </Button>
-                    </span>
-                    </div>
-                </Form>
+
                 {isAuthenticated ? (
                     <div className="text-right navbar-buttons-right">
                         <UploadButton />

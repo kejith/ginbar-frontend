@@ -60,6 +60,7 @@ class PostsBoard extends Component {
         this.elementsPerRow = Math.floor(this.state.width / this.postWidth);
     }
 
+    // TODO: check which Mountpoint is essesntial 
     componentWillMount() {
         this.updateDimensions();
         document.addEventListener("scroll", this.scrollHandler.bind(this));
@@ -71,6 +72,9 @@ class PostsBoard extends Component {
         window.addEventListener("popstate", this.popStateListener.bind(this));
         window.addEventListener("resize", this.updateDimensions);
     }
+    // ------------
+
+
 
     componentWillUnmount() {
         window.removeEventListener(
@@ -83,9 +87,11 @@ class PostsBoard extends Component {
         document.removeEventListener("keydown", this.onKeyPressed.bind(this));
     }
 
+    // Read Post ID from URL
     popStateListener(e) {
         this.props.changeCurrentPost(parseInt(readPostIdFromUrl()));
     }
+
 
     scrollHandler = () => {
         var d = document.documentElement;
@@ -96,21 +102,23 @@ class PostsBoard extends Component {
         this.isScrollingDown = scrollTop - this.previousScrollTop >= 0;
         this.previousScrollTop = scrollTop;
 
-        if (
-            offset >= height &&
-            !this.isLoadingOlderPosts &&
-            this.hasMoreOld &&
-            this.isScrollingDown
-        ) {
+ 
+        // When to load older Posts
+        var shouldLoadOlderPosts =  offset >= height &&
+                                    !this.isLoadingOlderPosts &&
+                                    this.hasMoreOld &&
+                                    this.isScrollingDown
+        if (shouldLoadOlderPosts) 
             this.loadOlderPosts();
-        }
 
-        if (
-            scrollTop <= 300 &&
-            this.hasMoreNew &&
-            !this.isLoadingNewerPosts &&
-            !this.isScrollingDown
-        ) {
+
+        // When to load newer Posts
+        var shouldLoadNewerPosts =  scrollTop <= 300 && 
+                                    this.hasMoreNew &&
+                                    !this.isLoadingNewerPosts &&
+                                    !this.isScrollingDown
+
+        if (shouldLoadNewerPosts) {
             this.previousOffset = scrollTop;
             this.previousTotalHeight = window.document.body.offsetHeight;
             this.loadNewerPosts();
