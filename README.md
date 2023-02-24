@@ -18,7 +18,7 @@ Here's why:
 * Scalable
 * Learning Purposes 
 
-[Live Demo](https://kejith.de/post/8835)
+[Live Demo](https://ginbar.kejith.de/)
 
 Test Account:
 - Username: test
